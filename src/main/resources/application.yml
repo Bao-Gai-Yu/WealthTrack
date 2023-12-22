@@ -2,5 +2,5 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://43.142.140.122:3306/WealthTrack?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8
-    username: ying
+    username: wang
     password: WealthTrack@2023
