@@ -1,4 +1,4 @@
-package team.hiddenblue.wealthtrack.entity;
+package team.hiddenblue.wealthtrack.pojo;
 
 import lombok.Builder;
 import lombok.Data;

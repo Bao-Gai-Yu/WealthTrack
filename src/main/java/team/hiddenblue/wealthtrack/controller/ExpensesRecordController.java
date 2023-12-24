@@ -1,27 +1,47 @@
 package team.hiddenblue.wealthtrack.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import team.hiddenblue.wealthtrack.pojo.ExpensesRecord;
 import team.hiddenblue.wealthtrack.service.impl.ExpensesRecordServiceImpl;
 
 @RestController
 @RequestMapping("/api/expenses")
 public class ExpensesRecordController {
-
+    @Autowired
     private ExpensesRecordServiceImpl expensesRecordService;
 
+    /**
+     * 插入新的消费记录
+     *
+     * @param expensesRecord 前端传来的数据
+     * @return true - 插入成功， false - 插入失败
+     */
     @PostMapping
-    public Object insert() {
-        return null;
+    public Object insert(@RequestBody ExpensesRecord expensesRecord) {
+        return expensesRecordService.insert(expensesRecord);
     }
 
+    /**
+     * 修改消费记录
+     *
+     * @param expensesRecord
+     * @return
+     */
     @PutMapping
-    public Object update() {
-        return null;
+    public Object update(@RequestBody ExpensesRecord expensesRecord) {
+        return expensesRecordService.update(expensesRecord);
     }
 
+    /**
+     * 删除消费记录
+     *
+     * @param id 欲删除的消费记录id
+     * @return true - 删除成功， false - 可能是没有权限，也可能是记录不存在
+     */
     @DeleteMapping("/{id}")
-    public Object delete() {
-        return null;
+    public Object delete(@PathVariable Integer id) {
+        return expensesRecordService.delete(id, 1);
     }
 
     /**
@@ -47,4 +67,5 @@ public class ExpensesRecordController {
         return expensesRecordService.getPagedExpenseRecord(1, ledgerId, year, month, date, type, pageNum, pageSize);
 
     }
+
 }
