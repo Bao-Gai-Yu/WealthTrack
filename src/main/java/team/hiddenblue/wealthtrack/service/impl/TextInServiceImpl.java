@@ -2,8 +2,10 @@ package team.hiddenblue.wealthtrack.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import team.hiddenblue.wealthtrack.Result.*;
+import team.hiddenblue.wealthtrack.config.TextInConfig;
 import team.hiddenblue.wealthtrack.constant.TextInApi;
 import team.hiddenblue.wealthtrack.mapper.LedgerPermissionMapper;
 import team.hiddenblue.wealthtrack.service.ExpensesRecordService;
@@ -16,9 +18,12 @@ import java.util.Calendar;
 @Service
 @RequiredArgsConstructor
 public class TextInServiceImpl {
-    final ExpensesRecordService expensesRecordService;
 
-    final LedgerPermissionMapper ledgerPermissionMapper;
+    @Autowired
+    private ExpensesRecordService expensesRecordService;
+
+    @Autowired
+    private LedgerPermissionMapper ledgerPermissionMapper;
 
     /**
      *
@@ -28,7 +33,7 @@ public class TextInServiceImpl {
     public ExpenseRecordResult insertByTicket(byte[] img) {
 
         //将图片发送到TextApi接口，提取文本信息后存储在result中
-        Object result = TextInFetch.post(TextInApi.TRAIN_TICKET, processImage(img));
+        Object result = TextInFetch.post(TextInApi.TRAIN_TICKET, img);
         //用于处理JSON数据的一个类
         ObjectMapper objectMapper = new ObjectMapper();
         //把result转换为自定义的Result类型

@@ -1,15 +1,21 @@
 package team.hiddenblue.wealthtrack.util;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import team.hiddenblue.wealthtrack.Result.TextInResponseResult;
+import team.hiddenblue.wealthtrack.config.ApplicationContextProvider;
 import team.hiddenblue.wealthtrack.config.TextInConfig;
 import team.hiddenblue.wealthtrack.constant.ErrorCode;
 import team.hiddenblue.wealthtrack.constant.TextInApi;
 import team.hiddenblue.wealthtrack.exception.AppException;
+
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 
 /**
@@ -17,25 +23,35 @@ import team.hiddenblue.wealthtrack.exception.AppException;
  */
 public class TextInFetch {
 
+
     /**
      * 用于发送HTTP请求
+     *
      * @return
      */
     private static RestTemplate getRestTemplate() {
         return new RestTemplate();
     }
 
+
+    private static TextInConfig getTextInConfig() {
+        return ApplicationContextProvider.getApplicationContext().getBean(TextInConfig.class);
+    }
+
+
     /**
-     *
      * @param url
      * @param img
      * @return
      */
     public static Object post(String url, byte[] img) {
+
+        TextInConfig textInConfig = getTextInConfig();
+
         //设置HTTP头信息
         HttpHeaders headers = new HttpHeaders();
-        headers.add("x-ti-app-id", TextInConfig.getAppId());
-        headers.add("x-ti-secret-code", TextInConfig.getSecretCode());
+        headers.add("x-ti-app-id", textInConfig.getAppId());
+        headers.add("x-ti-secret-code", textInConfig.getSecretCode());
         headers.add("connection", "Keep-Alive");
         if (url.equals(TextInApi.CROP_ENHANCE)) {
             //1表示矫正图片方向，详见api文档
@@ -68,6 +84,6 @@ public class TextInFetch {
                 }
             }
         }
-        return resp.getBody().getData();
+        return resp.getBody().getResult();
     }
 }

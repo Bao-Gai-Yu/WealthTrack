@@ -4,3 +4,7 @@ spring:
     url: jdbc:mysql://localhost:3306/WealthTrackLocal?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8
     username: root
     password: root
+
+app:
+  x-ti-app-id: c7b8351b98674abc1e0ac5a5d3d2292a
+  x-ti-secret-code: 4d4919e559d06b6a3221cc179ef9506a

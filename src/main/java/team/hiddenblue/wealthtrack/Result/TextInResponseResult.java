@@ -11,5 +11,5 @@ import lombok.Data;
 public class TextInResponseResult {
     private int code;
     private String message;
-    private Object data;
+    private Object result;
 }
