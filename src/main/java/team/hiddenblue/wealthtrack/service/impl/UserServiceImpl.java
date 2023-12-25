@@ -1,4 +1,8 @@
 package team.hiddenblue.wealthtrack.service.impl;
 
-public class UserServiceImpl {
+import org.springframework.stereotype.Service;
+import team.hiddenblue.wealthtrack.service.UserService;
+
+@Service
+public class UserServiceImpl implements UserService {
 }

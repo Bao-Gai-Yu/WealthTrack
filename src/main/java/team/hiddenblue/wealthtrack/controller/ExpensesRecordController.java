@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import team.hiddenblue.wealthtrack.pojo.ExpensesRecord;
+import team.hiddenblue.wealthtrack.service.ExpensesRecordService;
+import team.hiddenblue.wealthtrack.service.TextInService;
 import team.hiddenblue.wealthtrack.service.impl.ExpensesRecordServiceImpl;
 import team.hiddenblue.wealthtrack.service.impl.TextInServiceImpl;
 
@@ -14,10 +16,10 @@ import java.util.Map;
 @RequestMapping("/api/expenses")
 public class ExpensesRecordController {
     @Autowired
-    private ExpensesRecordServiceImpl expensesRecordService;
+    private ExpensesRecordService expensesRecordService;
 
     @Autowired
-    private TextInServiceImpl textInService;
+    private TextInService textInService;
 
     /**
      * 插入新的消费记录

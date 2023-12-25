@@ -11,6 +11,7 @@ import team.hiddenblue.wealthtrack.constant.TextInApi;
 import team.hiddenblue.wealthtrack.exception.AppException;
 import team.hiddenblue.wealthtrack.mapper.LedgerPermissionMapper;
 import team.hiddenblue.wealthtrack.service.ExpensesRecordService;
+import team.hiddenblue.wealthtrack.service.TextInService;
 import team.hiddenblue.wealthtrack.util.TextInFetch;
 
 import java.util.Base64;
@@ -19,7 +20,7 @@ import java.util.Calendar;
 
 @Service
 @RequiredArgsConstructor
-public class TextInServiceImpl {
+public class TextInServiceImpl implements TextInService {
 
     @Autowired
     private ExpensesRecordService expensesRecordService;
