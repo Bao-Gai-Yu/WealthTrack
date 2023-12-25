@@ -8,6 +8,7 @@ import team.hiddenblue.wealthtrack.service.impl.ExpensesRecordServiceImpl;
 import team.hiddenblue.wealthtrack.service.impl.TextInServiceImpl;
 
 import java.io.IOException;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/expenses")
@@ -76,7 +77,7 @@ public class ExpensesRecordController {
     }
 
     /**
-     *
+     *根据火车票自动插入消费记录
      * @param photo
      * @return
      * @throws IOException
@@ -85,5 +86,17 @@ public class ExpensesRecordController {
     public Object insertByTicket(@RequestParam("photo") MultipartFile photo) throws IOException{
         return textInService.insertByTicket(photo.getBytes());
     }
+
+    /**
+     * 根据声音自动录入消费记录
+     * @param map 包括由声音转化来的文字
+     * @return
+     */
+    @PostMapping("/voice")
+    public Object insertByVoice(@RequestBody Map<String, String> map){
+        String sentence = map.get("sentence");
+        return textInService.insertByVoice(sentence);
+    }
+
 
 }
