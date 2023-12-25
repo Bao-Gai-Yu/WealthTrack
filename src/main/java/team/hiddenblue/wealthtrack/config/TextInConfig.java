@@ -20,7 +20,7 @@ public class TextInConfig {
      * 合合信息账号的secretCode
      */
     @Value("${app.x-ti-secret-code}")
-    private  String secretCode;
+    private String secretCode;
 
     public String getAppId() {
         return appId;
