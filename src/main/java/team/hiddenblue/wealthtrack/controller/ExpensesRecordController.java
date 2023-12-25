@@ -2,14 +2,21 @@ package team.hiddenblue.wealthtrack.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import team.hiddenblue.wealthtrack.pojo.ExpensesRecord;
 import team.hiddenblue.wealthtrack.service.impl.ExpensesRecordServiceImpl;
+import team.hiddenblue.wealthtrack.service.impl.TextInServiceImpl;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/expenses")
 public class ExpensesRecordController {
     @Autowired
     private ExpensesRecordServiceImpl expensesRecordService;
+
+    @Autowired
+    private TextInServiceImpl textInService;
 
     /**
      * 插入新的消费记录
@@ -66,6 +73,17 @@ public class ExpensesRecordController {
                         @RequestParam(value = "page_size") Integer pageSize) {
         return expensesRecordService.getPagedExpenseRecord(1, ledgerId, year, month, date, type, pageNum, pageSize);
 
+    }
+
+    /**
+     *
+     * @param photo
+     * @return
+     * @throws IOException
+     */
+    @PostMapping("/train_ticket")
+    public Object insertByTicket(@RequestParam("photo") MultipartFile photo) throws IOException{
+        return textInService.insertByTicket(photo.getBytes());
     }
 
 }
