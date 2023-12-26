@@ -1,4 +1,4 @@
-package team.hiddenblue.wealthtrack.Result;
+package team.hiddenblue.wealthtrack.result;
 
 
 import com.fasterxml.jackson.annotation.JsonInclude;

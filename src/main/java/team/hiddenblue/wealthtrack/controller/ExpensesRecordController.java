@@ -100,5 +100,9 @@ public class ExpensesRecordController {
         return textInService.insertByVoice(sentence);
     }
 
+    @PostMapping("/photo")
+    public Object insertByCommonImg(@RequestParam("photo") MultipartFile photo) throws IOException{
+        return textInService.insertByCommonImg(photo.getBytes());
+    }
 
 }

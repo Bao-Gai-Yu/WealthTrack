@@ -4,14 +4,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import team.hiddenblue.wealthtrack.Result.*;
-import team.hiddenblue.wealthtrack.config.TextInConfig;
+import team.hiddenblue.wealthtrack.result.*;
 import team.hiddenblue.wealthtrack.constant.ErrorCode;
 import team.hiddenblue.wealthtrack.constant.TextInApi;
 import team.hiddenblue.wealthtrack.exception.AppException;
 import team.hiddenblue.wealthtrack.mapper.LedgerPermissionMapper;
 import team.hiddenblue.wealthtrack.service.ExpensesRecordService;
 import team.hiddenblue.wealthtrack.service.TextInService;
+import team.hiddenblue.wealthtrack.util.IntegerUtil;
 import team.hiddenblue.wealthtrack.util.TextInFetch;
 
 import java.util.Base64;
@@ -105,6 +105,75 @@ public class TextInServiceImpl implements TextInService {
                 .value(value)
                 .type(type).build();
     }
+
+
+    public ExpenseRecordResult insertByCommonImg(byte []img) {
+        Object result = TextInFetch.post(TextInApi.COMMON_RECOGNIZE, processImage(img));
+        ObjectMapper objectMapper = new ObjectMapper();
+        ImageResult imageResult = objectMapper.convertValue(result, ImageResult.class);
+        String preText;
+        int valueFlag = 0;
+        int subValueFlag = 0;
+        int timeFlag = 0;
+        String value = null;
+        String subValue = null;
+        String remark = imageResult.getLines().get(0).getText();
+        String dateRaw = null;
+        for (ImageItemResult item : imageResult.getLines()) {
+            preText = item.getText();
+            if (valueFlag == 0 && (item.getText().contains("应收") || item.getText().contains("应付"))) {
+                String[] split = item.getText().split("：");
+                if (split.length != 1) {
+                    value = split[split.length - 1];
+                    valueFlag = 2;
+                } else if (IntegerUtil.isNumber(preText)) {
+                    value = preText;
+                    valueFlag = 2;
+                } else {
+                    valueFlag = 1;
+                }
+            } else if (valueFlag == 1) {
+                value = item.getText();
+                valueFlag = 2;
+            }
+            if (subValueFlag == 0 && item.getText().contains("合计")) {
+                String[] split = item.getText().split("：");
+                if (split.length != 1) {
+                    subValue = split[split.length - 1];
+                    subValueFlag = 2;
+                } else if (IntegerUtil.isNumber(preText)) {
+                    subValue = preText;
+                    subValueFlag = 2;
+                } else {
+                    subValueFlag = 1;
+                }
+            } else if (subValueFlag == 1) {
+                subValue = item.getText();
+                subValueFlag = 2;
+            }
+            if (timeFlag == 0 && item.getText().contains("时间")) {
+                String[] split = item.getText().split("：");
+                if (split.length != 1) {
+                    dateRaw = split[1].split(" ")[0];
+                    timeFlag = 2;
+                } else {
+                    timeFlag = 1;
+                }
+            } else if (timeFlag == 1) {
+                dateRaw = item.getText().split(" ")[0];
+                timeFlag = 2;
+            }
+        }
+        return ExpenseRecordResult.builder()
+                .type(true)
+                .value(value != null ? value : subValue)
+                .kind("")
+                .remark(remark)
+                .date(dateRaw).build();
+    }
+
+
+
 
     private byte[] processImage(byte []img) {
         ObjectMapper objectMapper = new ObjectMapper();

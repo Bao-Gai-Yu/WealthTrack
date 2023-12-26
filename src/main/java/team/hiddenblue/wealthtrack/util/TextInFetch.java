@@ -1,21 +1,16 @@
 package team.hiddenblue.wealthtrack.util;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
-import team.hiddenblue.wealthtrack.Result.TextInResponseResult;
+import team.hiddenblue.wealthtrack.result.TextInResponseResult;
 import team.hiddenblue.wealthtrack.config.ApplicationContextProvider;
 import team.hiddenblue.wealthtrack.config.TextInConfig;
 import team.hiddenblue.wealthtrack.constant.ErrorCode;
 import team.hiddenblue.wealthtrack.constant.TextInApi;
 import team.hiddenblue.wealthtrack.exception.AppException;
-
-import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 
 /**
