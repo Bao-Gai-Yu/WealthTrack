@@ -1,4 +1,4 @@
-package team.hiddenblue.wealthtrack.result;
+package team.hiddenblue.wealthtrack.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;

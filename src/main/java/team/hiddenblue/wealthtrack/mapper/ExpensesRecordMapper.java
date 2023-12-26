@@ -2,6 +2,7 @@ package team.hiddenblue.wealthtrack.mapper;
 
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.session.RowBounds;
+import team.hiddenblue.wealthtrack.dto.ExpenseRecordResult;
 import team.hiddenblue.wealthtrack.pojo.ExpensesRecord;
 
 import java.util.Date;
@@ -20,7 +21,7 @@ public interface ExpensesRecordMapper {
             " AND ledger_id = #{ledgerId}" +
             " AND type = #{type}" +
             " AND date >= #{startTime}" +
-            " AND date <= #{endTime}")
+            " AND date < #{endTime}")
     public List<ExpensesRecord> getPagedByTimeZone(RowBounds rowBounds, Integer userId, Integer ledgerId, Boolean type, Date startTime, Date endTime);
 
     @Insert("INSERT INTO expenses_record(user_id, ledger_id, value, type, kind, remark, date, create_date)" +
