@@ -1,0 +1,18 @@
+ 2023-12-23 15:19:49.679 [main] INFO  t.hiddenblue.wealthtrack.WealthTrackApplication - Starting WealthTrackApplication using Java 19.0.1 with PID 25744 (D:\onedriver\OneDrive\桌面\github\WealthTrack\target\classes started by yingjiahe in D:\onedriver\OneDrive\桌面\github\WealthTrack)
+ 2023-12-23 15:19:49.687 [main] INFO  t.hiddenblue.wealthtrack.WealthTrackApplication - No active profile set, falling back to 1 default profile: "default"
+ 2023-12-23 15:19:51.565 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+ 2023-12-23 15:19:51.577 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+ 2023-12-23 15:19:51.649 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 18 ms. Found 0 Redis repository interfaces.
+ 2023-12-23 15:19:53.294 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+ 2023-12-23 15:19:53.304 [main] INFO  org.apache.catalina.core.AprLifecycleListener - An older version [1.2.39] of the Apache Tomcat Native library is installed, while Tomcat recommends a minimum version of [2.0.5]
+ 2023-12-23 15:19:53.305 [main] INFO  org.apache.catalina.core.AprLifecycleListener - Loaded Apache Tomcat Native library [1.2.39] using APR version [1.7.4].
+ 2023-12-23 15:19:53.316 [main] INFO  org.apache.catalina.core.AprLifecycleListener - OpenSSL successfully initialized [OpenSSL 3.0.11 19 Sep 2023]
+ 2023-12-23 15:19:53.339 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+ 2023-12-23 15:19:53.345 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+ 2023-12-23 15:19:53.347 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.17]
+ 2023-12-23 15:19:53.479 [main] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+ 2023-12-23 15:19:53.481 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 3670 ms
+ 2023-12-23 15:19:55.908 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+ 2023-12-23 15:19:55.989 [main] INFO  o.s.b.a.logging.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
