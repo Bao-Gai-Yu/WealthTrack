@@ -8,7 +8,7 @@ import team.hiddenblue.wealthtrack.constant.ErrorCode;
 import team.hiddenblue.wealthtrack.exception.AppException;
 import team.hiddenblue.wealthtrack.pojo.User;
 import team.hiddenblue.wealthtrack.pojo.UserInfo;
-import team.hiddenblue.wealthtrack.result.Result;
+import team.hiddenblue.wealthtrack.dto.Result;
 import team.hiddenblue.wealthtrack.service.UserInfoService;
 import team.hiddenblue.wealthtrack.service.UserService;
 import team.hiddenblue.wealthtrack.service.WeChatService;
