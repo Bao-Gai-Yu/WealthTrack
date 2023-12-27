@@ -48,9 +48,6 @@ public enum ErrorCode {
     ILLEGAL_REQUEST(200404, "非法请求"),
     ;
 
-
-
-
     private final Integer code;
     private final String message;
 

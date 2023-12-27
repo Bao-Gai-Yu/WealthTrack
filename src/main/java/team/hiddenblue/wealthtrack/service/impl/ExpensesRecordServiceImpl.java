@@ -3,6 +3,8 @@ package team.hiddenblue.wealthtrack.service.impl;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import team.hiddenblue.wealthtrack.constant.ResponseCode;
+import team.hiddenblue.wealthtrack.dto.ExpenseRecordResult;
 import team.hiddenblue.wealthtrack.pojo.ExpensesRecord;
 import team.hiddenblue.wealthtrack.pojo.LedgerPermission;
 import team.hiddenblue.wealthtrack.mapper.ExpensesRecordMapper;
@@ -30,7 +32,10 @@ public class ExpensesRecordServiceImpl implements ExpensesRecordService {
 
             if (!date.equals("")) {//如果提供了具体日期
                 startTime = TimeUtil.tranStringToDate(date);
-                endTime = startTime;
+                Calendar endCalendar = Calendar.getInstance();
+                endCalendar.setTime(startTime);
+                endCalendar.add(Calendar.DAY_OF_YEAR, 1);
+                endTime = endCalendar.getTime();
             } else if (!month.equals("")) {//如果只提供了某年某月，转换时间为某个月起止
                 startTime = TimeUtil.tranStringToDate(month + "-01");
                 endTime = TimeUtil.tranStringToDate(month + "-01");
@@ -50,6 +55,9 @@ public class ExpensesRecordServiceImpl implements ExpensesRecordService {
             pe.printStackTrace();
         }
 
+        System.out.println(startTime);
+        System.out.println(endTime);
+
         //校验是否具有操作当前账本的权限
         LedgerPermission ledgerPermission = ledgerPermissionMapper.getOne(userId, ledgerId);
         if (ledgerPermission == null) {
@@ -65,11 +73,11 @@ public class ExpensesRecordServiceImpl implements ExpensesRecordService {
     }
 
     @Override
-    public boolean insert(ExpensesRecord expensesRecord) {
+    public Integer insert(ExpensesRecord expensesRecord) {
         //校验是否具有操作当前账本的权限
         LedgerPermission ledgerPermission = ledgerPermissionMapper.getOne(expensesRecord.getUserId(), expensesRecord.getLedgerId());
         if (ledgerPermission == null) {
-            return false;
+            return -ResponseCode.UN_AUTH.getCode();
         }
         Integer insertRes = expensesRecordMapper.insert(expensesRecord.getUserId(),
                 expensesRecord.getLedgerId(),
@@ -79,9 +87,9 @@ public class ExpensesRecordServiceImpl implements ExpensesRecordService {
                 expensesRecord.getRemark(),
                 expensesRecord.getDate());
         if (insertRes != 0) {
-            return true;
+            return insertRes;
         }
-        return false;
+        return -ResponseCode.SERVER_ERROR.getCode();
     }
 
     /**
@@ -105,9 +113,9 @@ public class ExpensesRecordServiceImpl implements ExpensesRecordService {
     }
 
     @Override
-    public Object update(ExpensesRecord expensesRecord) {
+    public Boolean update(ExpensesRecord expensesRecord) {
         Integer id = expensesRecord.getId();
-        Integer userId = 1;
+        Integer userId = expensesRecord.getUserId();
         Double value = expensesRecord.getValue();
         Boolean type = expensesRecord.getType();
         String kind = expensesRecord.getKind();

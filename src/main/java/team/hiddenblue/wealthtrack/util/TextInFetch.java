@@ -5,7 +5,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
-import team.hiddenblue.wealthtrack.result.TextInResponseResult;
+import team.hiddenblue.wealthtrack.dto.TextInResponseResult;
 import team.hiddenblue.wealthtrack.config.ApplicationContextProvider;
 import team.hiddenblue.wealthtrack.config.TextInConfig;
 import team.hiddenblue.wealthtrack.constant.ErrorCode;

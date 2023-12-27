@@ -1,4 +1,4 @@
-package team.hiddenblue.wealthtrack.result;
+package team.hiddenblue.wealthtrack.dto;
 
 import lombok.Data;
 

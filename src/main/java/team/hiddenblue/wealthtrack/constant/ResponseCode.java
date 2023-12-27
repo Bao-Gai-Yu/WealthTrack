@@ -2,10 +2,6 @@ package team.hiddenblue.wealthtrack.constant;
 
 import lombok.Getter;
 
-/**
- * @author heoeh
- * @version 1.0
- */
 @Getter
 public enum ResponseCode {
     /**
@@ -23,7 +19,12 @@ public enum ResponseCode {
     /**
      * 禁止
      */
-    FORBIDDEN(403);
+    FORBIDDEN(403),
+    /**
+     * 找不到资源
+     */
+    NOT_FOUND(404),
+    SERVER_ERROR(500);
 
     private final Integer code;
 
