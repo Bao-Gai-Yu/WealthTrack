@@ -1,0 +1,105 @@
+ 2023-12-28 13:46:22.951 [background-preinit] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+ 2023-12-28 13:46:22.990 [main] INFO  t.hiddenblue.wealthtrack.WealthTrackApplication - Starting WealthTrackApplication using Java 19.0.1 with PID 23572 (D:\onedriver\OneDrive\桌面\github\WealthTrack\target\classes started by yingjiahe in D:\onedriver\OneDrive\桌面\github\WealthTrack)
+ 2023-12-28 13:46:22.993 [main] INFO  t.hiddenblue.wealthtrack.WealthTrackApplication - No active profile set, falling back to 1 default profile: "default"
+ 2023-12-28 13:46:24.263 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+ 2023-12-28 13:46:24.268 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+ 2023-12-28 13:46:24.305 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 12 ms. Found 0 Redis repository interfaces.
+ 2023-12-28 13:46:25.034 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+ 2023-12-28 13:46:25.035 [main] INFO  org.apache.catalina.core.AprLifecycleListener - An older version [1.2.39] of the Apache Tomcat Native library is installed, while Tomcat recommends a minimum version of [2.0.5]
+ 2023-12-28 13:46:25.035 [main] INFO  org.apache.catalina.core.AprLifecycleListener - Loaded Apache Tomcat Native library [1.2.39] using APR version [1.7.4].
+ 2023-12-28 13:46:25.058 [main] INFO  org.apache.catalina.core.AprLifecycleListener - OpenSSL successfully initialized [OpenSSL 3.0.11 19 Sep 2023]
+ 2023-12-28 13:46:25.069 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+ 2023-12-28 13:46:25.072 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+ 2023-12-28 13:46:25.072 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.16]
+ 2023-12-28 13:46:25.176 [main] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+ 2023-12-28 13:46:25.177 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2138 ms
+ 2023-12-28 13:46:26.328 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+ 2023-12-28 13:46:26.347 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+ 2023-12-28 13:46:26.355 [main] INFO  t.hiddenblue.wealthtrack.WealthTrackApplication - Started WealthTrackApplication in 3.823 seconds (process running for 7.548)
+ 2023-12-28 13:46:30.682 [http-nio-8080-exec-1] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+ 2023-12-28 13:46:30.682 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+ 2023-12-28 13:46:30.683 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+ 2023-12-28 13:46:31.644 [http-nio-8080-exec-1] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+ 2023-12-28 13:46:32.285 [http-nio-8080-exec-1] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@1c9cde18
+ 2023-12-28 13:46:32.286 [http-nio-8080-exec-1] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+ 2023-12-28 13:46:32.503 [http-nio-8080-exec-1] INFO  t.hiddenblue.wealthtrack.config.MySaTokenListener - Thu Dec 28 13:46:32 CST 2023  用户5   登录  SaLoginModel [device=null, isLastingCookie=true, timeout=2592000, activeTimeout=null, extraData=null, token=null, isWriteHeader=false, tokenSignTag=null]
+ 2023-12-28 13:46:32.641 [http-nio-8080-exec-5] INFO  org.apache.tomcat.util.http.parser.Cookie - A cookie header was received [Expires=Sat 27 Jan 2024 13:46:32 +0800;] that contained an invalid cookie. That cookie will be ignored.
+ Note: further occurrences of this error will be logged at DEBUG level.
+ 2023-12-28 13:52:13.011 [http-nio-8080-exec-9] INFO  t.hiddenblue.wealthtrack.config.MySaTokenListener - Thu Dec 28 13:52:13 CST 2023  用户5   登录  SaLoginModel [device=null, isLastingCookie=true, timeout=2592000, activeTimeout=null, extraData=null, token=null, isWriteHeader=false, tokenSignTag=null]
+ 2023-12-28 13:54:38.603 [http-nio-8080-exec-10] INFO  t.hiddenblue.wealthtrack.config.MySaTokenListener - Thu Dec 28 13:54:38 CST 2023  用户5   登录  SaLoginModel [device=null, isLastingCookie=true, timeout=2592000, activeTimeout=null, extraData=null, token=null, isWriteHeader=false, tokenSignTag=null]
+ 2023-12-28 13:57:08.132 [http-nio-8080-exec-4] INFO  t.hiddenblue.wealthtrack.config.MySaTokenListener - Thu Dec 28 13:57:08 CST 2023  用户5   登录  SaLoginModel [device=null, isLastingCookie=true, timeout=2592000, activeTimeout=null, extraData=null, token=null, isWriteHeader=false, tokenSignTag=null]
+ 2023-12-28 14:01:53.997 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+ 2023-12-28 14:01:54.002 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+ 2023-12-28 14:02:00.189 [background-preinit] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+ 2023-12-28 14:02:00.237 [main] INFO  t.hiddenblue.wealthtrack.WealthTrackApplication - Starting WealthTrackApplication using Java 19.0.1 with PID 19712 (D:\onedriver\OneDrive\桌面\github\WealthTrack\target\classes started by yingjiahe in D:\onedriver\OneDrive\桌面\github\WealthTrack)
+ 2023-12-28 14:02:00.239 [main] INFO  t.hiddenblue.wealthtrack.WealthTrackApplication - No active profile set, falling back to 1 default profile: "default"
+ 2023-12-28 14:02:00.985 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+ 2023-12-28 14:02:00.987 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+ 2023-12-28 14:02:01.009 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 9 ms. Found 0 Redis repository interfaces.
+ 2023-12-28 14:02:01.583 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+ 2023-12-28 14:02:01.584 [main] INFO  org.apache.catalina.core.AprLifecycleListener - An older version [1.2.39] of the Apache Tomcat Native library is installed, while Tomcat recommends a minimum version of [2.0.5]
+ 2023-12-28 14:02:01.584 [main] INFO  org.apache.catalina.core.AprLifecycleListener - Loaded Apache Tomcat Native library [1.2.39] using APR version [1.7.4].
+ 2023-12-28 14:02:01.590 [main] INFO  org.apache.catalina.core.AprLifecycleListener - OpenSSL successfully initialized [OpenSSL 3.0.11 19 Sep 2023]
+ 2023-12-28 14:02:01.600 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+ 2023-12-28 14:02:01.602 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+ 2023-12-28 14:02:01.602 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.16]
+ 2023-12-28 14:02:01.693 [main] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+ 2023-12-28 14:02:01.694 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1400 ms
+ 2023-12-28 14:02:02.602 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+ 2023-12-28 14:02:02.619 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+ 2023-12-28 14:02:02.627 [main] INFO  t.hiddenblue.wealthtrack.WealthTrackApplication - Started WealthTrackApplication in 2.851 seconds (process running for 3.938)
+ 2023-12-28 14:02:15.821 [http-nio-8080-exec-1] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+ 2023-12-28 14:02:15.822 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+ 2023-12-28 14:02:15.822 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+ 2023-12-28 14:03:58.296 [background-preinit] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+ 2023-12-28 14:03:58.336 [main] INFO  t.hiddenblue.wealthtrack.WealthTrackApplication - Starting WealthTrackApplication using Java 19.0.1 with PID 15368 (D:\onedriver\OneDrive\桌面\github\WealthTrack\target\classes started by yingjiahe in D:\onedriver\OneDrive\桌面\github\WealthTrack)
+ 2023-12-28 14:03:58.337 [main] INFO  t.hiddenblue.wealthtrack.WealthTrackApplication - No active profile set, falling back to 1 default profile: "default"
+ 2023-12-28 14:03:59.013 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+ 2023-12-28 14:03:59.015 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+ 2023-12-28 14:03:59.037 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 9 ms. Found 0 Redis repository interfaces.
+ 2023-12-28 14:03:59.528 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+ 2023-12-28 14:03:59.529 [main] INFO  org.apache.catalina.core.AprLifecycleListener - An older version [1.2.39] of the Apache Tomcat Native library is installed, while Tomcat recommends a minimum version of [2.0.5]
+ 2023-12-28 14:03:59.529 [main] INFO  org.apache.catalina.core.AprLifecycleListener - Loaded Apache Tomcat Native library [1.2.39] using APR version [1.7.4].
+ 2023-12-28 14:03:59.534 [main] INFO  org.apache.catalina.core.AprLifecycleListener - OpenSSL successfully initialized [OpenSSL 3.0.11 19 Sep 2023]
+ 2023-12-28 14:03:59.541 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+ 2023-12-28 14:03:59.542 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+ 2023-12-28 14:03:59.543 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.16]
+ 2023-12-28 14:03:59.615 [main] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+ 2023-12-28 14:03:59.615 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1225 ms
+ 2023-12-28 14:04:00.556 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+ 2023-12-28 14:04:00.576 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+ 2023-12-28 14:04:00.584 [main] INFO  t.hiddenblue.wealthtrack.WealthTrackApplication - Started WealthTrackApplication in 2.636 seconds (process running for 3.407)
+ 2023-12-28 14:04:09.559 [http-nio-8080-exec-1] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+ 2023-12-28 14:04:09.559 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+ 2023-12-28 14:04:09.560 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+ 2023-12-28 14:05:41.011 [background-preinit] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+ 2023-12-28 14:05:41.040 [main] INFO  t.hiddenblue.wealthtrack.WealthTrackApplication - Starting WealthTrackApplication using Java 19.0.1 with PID 9412 (D:\onedriver\OneDrive\桌面\github\WealthTrack\target\classes started by yingjiahe in D:\onedriver\OneDrive\桌面\github\WealthTrack)
+ 2023-12-28 14:05:41.042 [main] INFO  t.hiddenblue.wealthtrack.WealthTrackApplication - No active profile set, falling back to 1 default profile: "default"
+ 2023-12-28 14:05:41.683 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+ 2023-12-28 14:05:41.685 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+ 2023-12-28 14:05:41.710 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 10 ms. Found 0 Redis repository interfaces.
+ 2023-12-28 14:05:42.191 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+ 2023-12-28 14:05:42.192 [main] INFO  org.apache.catalina.core.AprLifecycleListener - An older version [1.2.39] of the Apache Tomcat Native library is installed, while Tomcat recommends a minimum version of [2.0.5]
+ 2023-12-28 14:05:42.192 [main] INFO  org.apache.catalina.core.AprLifecycleListener - Loaded Apache Tomcat Native library [1.2.39] using APR version [1.7.4].
+ 2023-12-28 14:05:42.196 [main] INFO  org.apache.catalina.core.AprLifecycleListener - OpenSSL successfully initialized [OpenSSL 3.0.11 19 Sep 2023]
+ 2023-12-28 14:05:42.202 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+ 2023-12-28 14:05:42.204 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+ 2023-12-28 14:05:42.204 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.16]
+ 2023-12-28 14:05:42.277 [main] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+ 2023-12-28 14:05:42.278 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1178 ms
+ 2023-12-28 14:05:43.068 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+ 2023-12-28 14:05:43.083 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+ 2023-12-28 14:05:43.091 [main] INFO  t.hiddenblue.wealthtrack.WealthTrackApplication - Started WealthTrackApplication in 2.404 seconds (process running for 3.148)
+ 2023-12-28 14:05:46.345 [http-nio-8080-exec-1] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+ 2023-12-28 14:05:46.345 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+ 2023-12-28 14:05:46.346 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+ 2023-12-28 14:05:46.411 [http-nio-8080-exec-1] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+ 2023-12-28 14:05:47.314 [http-nio-8080-exec-1] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@6ba677f2
+ 2023-12-28 14:05:47.316 [http-nio-8080-exec-1] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+ 2023-12-28 14:05:47.586 [http-nio-8080-exec-1] INFO  t.hiddenblue.wealthtrack.config.MySaTokenListener - Thu Dec 28 14:05:47 CST 2023  用户5   登录  SaLoginModel [device=null, isLastingCookie=true, timeout=2592000, activeTimeout=null, extraData=null, token=null, isWriteHeader=false, tokenSignTag=null]
+ 2023-12-28 14:29:55.557 [http-nio-8080-exec-5] INFO  t.hiddenblue.wealthtrack.config.MySaTokenListener - Thu Dec 28 14:29:55 CST 2023  用户5   登录  SaLoginModel [device=null, isLastingCookie=true, timeout=2592000, activeTimeout=null, extraData=null, token=null, isWriteHeader=false, tokenSignTag=null]
+ 2023-12-28 14:30:22.124 [http-nio-8080-exec-6] INFO  t.hiddenblue.wealthtrack.config.MySaTokenListener - Thu Dec 28 14:30:22 CST 2023  用户5   登录  SaLoginModel [device=null, isLastingCookie=true, timeout=2592000, activeTimeout=null, extraData=null, token=null, isWriteHeader=false, tokenSignTag=null]
+ 2023-12-28 14:30:22.222 [http-nio-8080-exec-7] INFO  org.apache.tomcat.util.http.parser.Cookie - A cookie header was received [Expires=Sat 27 Jan 2024 14:30:22 +0800;] that contained an invalid cookie. That cookie will be ignored.
+ Note: further occurrences of this error will be logged at DEBUG level.
+ 2023-12-28 14:31:05.572 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+ 2023-12-28 14:31:05.576 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
