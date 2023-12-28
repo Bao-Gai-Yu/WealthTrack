@@ -55,6 +55,28 @@ public class UserController {
                 "birthday", userInfo.getBirthday()));
     }
 
+
+    /**
+     * 微信登录接口
+     *
+     * @param openId 参数形式传入的用户openId
+     * @return json数据，包含状态码和状态信息
+     */
+    @ResponseBody
+    @GetMapping("/loginByOpenId/{openId}")
+    public Object loginByOpenId(@PathVariable String openId) {
+        User user = userService.getByOpenId(openId);
+        System.out.println(user);
+        if (user == null) {
+            throw new AppException(ErrorCode.USER_NOT_EXISTED);
+        }
+        StpUtil.logout(user.getUserId());
+        StpUtil.login(user.getUserId());
+        UserInfo userInfo = userInfoService.getById(user.getUserId());
+        return Result.SUCCESS(Map.of("username", user.getUsername(),
+                "birthday", userInfo.getBirthday()));
+    }
+
     /**
      * 微信注册接口
      *
