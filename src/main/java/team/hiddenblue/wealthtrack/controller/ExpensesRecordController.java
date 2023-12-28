@@ -142,8 +142,8 @@ public class ExpensesRecordController {
      * @return
      * @throws IOException
      */
-    @PostMapping("receipt")
-    public Object insertByReceipt(@RequestParam("receipt") MultipartFile photo) throws IOException{
+    @PostMapping("/receipt")
+    public Object insertByReceipt(@RequestParam("photo") MultipartFile photo) throws IOException{
         return Result.SUCCESS(textInService.insertByReceipt(photo.getBytes()));
     }
 

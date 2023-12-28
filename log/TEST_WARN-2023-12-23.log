@@ -1,2 +1,0 @@
- 2023-12-23 15:19:51.956 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[team.hiddenblue.wealthtrack]' package. Please check your configuration.
- 2023-12-23 15:19:55.941 [main] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'

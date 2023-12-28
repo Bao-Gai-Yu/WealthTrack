@@ -192,17 +192,22 @@ public class TextInServiceImpl implements TextInService {
         String dataRaw = null;
 
         for (ReceiptItemResult item : receiptResult.getItemList()) {
-            if ("shop".equals(item.getKey())) {
+            if ("money".equals(item.getKey())) {
+                money = item.getValue();
+            } else if ("date".equals(item.getKey())) {
+                dataRaw = item.getValue();
+            } else if ("shop".equals(item.getKey())) {
                 shop = item.getValue();
             } else if ("sku".equals(item.getKey())) {
                 sku = item.getValue();
-            } else if ("money".equals(item.getKey())) {
-                money = item.getValue();
-            } else if ("data".equals(item.getKey())) {
-                dataRaw = item.getValue().substring(0,10);
             }
         }
-        String remark = "本张小票是在"+ shop +"消费,购买的商品为：" + sku;
+
+        // 将 sku 中的换行符替换为逗号和空格
+        String formattedSku = sku.replace("\n", ", ");
+
+
+        String remark = "本张小票是在"+ shop +"消费,购买的商品为：" + formattedSku;
         return ExpenseRecordResult.builder()
                 .type(true)
                 .value(money)
