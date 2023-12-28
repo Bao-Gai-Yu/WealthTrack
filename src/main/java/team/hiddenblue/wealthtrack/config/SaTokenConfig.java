@@ -26,6 +26,7 @@ public class SaTokenConfig implements WebMvcConfigurer {
         })).addPathPatterns("/api/**")
            .excludePathPatterns("/api/user/login/**",
                                 "/api/user/register",
+                                "/api/user/loginByOpenId/**",
                                 "/api/user/test/login/**");
 
         registry.addInterceptor(new SaInterceptor()).addPathPatterns("/**");
