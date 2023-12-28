@@ -14,6 +14,10 @@ public class TextInApi {
      */
     public static final String TRAIN_TICKET = "https://api.textin.com/robot/v1.0/api/train_ticket";
     /**
+     * 商铺小票
+     */
+    public static final String RECEIPT = "https://api.textin.com/robot/v1.0/api/receipt";
+    /**
      * 通用文字识别
      */
     public static final String COMMON_RECOGNIZE = "https://api.textin.com/ai/service/v2/recognize";

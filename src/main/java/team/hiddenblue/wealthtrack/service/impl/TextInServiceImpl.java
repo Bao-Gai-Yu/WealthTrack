@@ -36,7 +36,7 @@ public class TextInServiceImpl implements TextInService {
     public ExpenseRecordResult insertByTicket(byte[] img) {
 
         //将图片发送到TextApi接口，提取文本信息后存储在result中
-        Object result = TextInFetch.post(TextInApi.TRAIN_TICKET, img);
+        Object result = TextInFetch.post(TextInApi.TRAIN_TICKET, processImage(img));
         //用于处理JSON数据的一个类
         ObjectMapper objectMapper = new ObjectMapper();
         //把result转换为自定义的Result类型
@@ -172,6 +172,44 @@ public class TextInServiceImpl implements TextInService {
                 .date(dateRaw).build();
     }
 
+    /**
+     * 根据商铺小票插入
+     * @param img
+     * @return
+     */
+    public ExpenseRecordResult insertByReceipt(byte[] img) {
+
+        //将图片发送到TextApi接口，提取文本信息后存储在result中
+        Object result = TextInFetch.post(TextInApi.RECEIPT, processImage(img));
+        //用于处理JSON数据的一个类
+        ObjectMapper objectMapper = new ObjectMapper();
+        //把result转换为自定义的Result类型
+        ReceiptResult receiptResult = objectMapper.convertValue(result, ReceiptResult.class);
+
+        String shop = null;
+        String sku = null;
+        String money =null;
+        String dataRaw = null;
+
+        for (ReceiptItemResult item : receiptResult.getItemList()) {
+            if ("shop".equals(item.getKey())) {
+                shop = item.getValue();
+            } else if ("sku".equals(item.getKey())) {
+                sku = item.getValue();
+            } else if ("money".equals(item.getKey())) {
+                money = item.getValue();
+            } else if ("data".equals(item.getKey())) {
+                dataRaw = item.getValue().substring(0,10);
+            }
+        }
+        String remark = "本张小票是在"+ shop +"消费,购买的商品为：" + sku;
+        return ExpenseRecordResult.builder()
+                .type(true)
+                .value(money)
+                .kind("shopping")
+                .remark(remark)
+                .date(dataRaw).build();
+    }
 
 
 

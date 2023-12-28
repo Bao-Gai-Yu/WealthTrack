@@ -115,7 +115,7 @@ public class ExpensesRecordController {
      */
     @PostMapping("/train_ticket")
     public Object insertByTicket(@RequestParam("photo") MultipartFile photo) throws IOException {
-        return textInService.insertByTicket(photo.getBytes());
+        return Result.SUCCESS(textInService.insertByTicket(photo.getBytes()));
     }
 
     /**
@@ -127,12 +127,24 @@ public class ExpensesRecordController {
     @PostMapping("/voice")
     public Object insertByVoice(@RequestBody Map<String, String> map) {
         String sentence = map.get("sentence");
-        return textInService.insertByVoice(sentence);
+        return Result.SUCCESS(textInService.insertByVoice(sentence));
     }
 
     @PostMapping("/photo")
     public Object insertByCommonImg(@RequestParam("photo") MultipartFile photo) throws IOException {
-        return textInService.insertByCommonImg(photo.getBytes());
+        return Result.SUCCESS(textInService.insertByCommonImg(photo.getBytes()));
+    }
+
+
+    /**
+     * 根据商铺小票自动识别消费记录
+     * @param photo
+     * @return
+     * @throws IOException
+     */
+    @PostMapping("receipt")
+    public Object insertByReceipt(@RequestParam("receipt") MultipartFile photo) throws IOException{
+        return Result.SUCCESS(textInService.insertByReceipt(photo.getBytes()));
     }
 
 }

@@ -8,4 +8,6 @@ public interface TextInService {
     ExpenseRecordResult insertByVoice(String sentence);
 
     ExpenseRecordResult insertByCommonImg(byte []img);
+
+    ExpenseRecordResult insertByReceipt(byte[] img);
 }
