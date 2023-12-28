@@ -7,10 +7,10 @@ import org.springframework.util.StringUtils;
 import team.hiddenblue.wealthtrack.config.WechatConfig;
 import team.hiddenblue.wealthtrack.constant.ErrorCode;
 import team.hiddenblue.wealthtrack.exception.AppException;
-import team.hiddenblue.wealthtrack.result.Code2SessionDto;
+import team.hiddenblue.wealthtrack.dto.Code2SessionDto;
 
 /**
- * @author Patrick_Star
+ * @author heoeh
  * @version 1.0
  */
 @Service

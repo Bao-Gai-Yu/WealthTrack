@@ -5,10 +5,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import team.hiddenblue.wealthtrack.constant.ErrorCode;
-import team.hiddenblue.wealthtrack.dto.Result;
 import team.hiddenblue.wealthtrack.exception.AppException;
 import team.hiddenblue.wealthtrack.pojo.User;
 import team.hiddenblue.wealthtrack.pojo.UserInfo;
+import team.hiddenblue.wealthtrack.dto.Result;
 import team.hiddenblue.wealthtrack.service.UserInfoService;
 import team.hiddenblue.wealthtrack.service.UserService;
 import team.hiddenblue.wealthtrack.service.WeChatService;
@@ -54,23 +54,6 @@ public class UserController {
         return Result.SUCCESS(Map.of("username", user.getUsername(),
                 "birthday", userInfo.getBirthday()));
     }
-
-    @ResponseBody
-    @GetMapping("/loginByOpenId/{openId}")
-    public Object loginByOpenId(@PathVariable String openId) {
-        User user = userService.getByOpenId(openId);
-        System.out.println(user);
-        if (user == null) {
-            throw new AppException(ErrorCode.USER_NOT_EXISTED);
-        }
-        StpUtil.logout(user.getUserId());
-        StpUtil.login(user.getUserId());
-        UserInfo userInfo = userInfoService.getById(user.getUserId());
-        return Result.SUCCESS(Map.of("username", user.getUsername(),
-                "birthday", userInfo.getBirthday()));
-    }
-
-
 
     /**
      * 微信注册接口

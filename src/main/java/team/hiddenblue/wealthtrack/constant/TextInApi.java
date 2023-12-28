@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * 合合科技 API 常量集
- * @author Patrick_Star
+ * @author chenjiahe
  * @version 1.2
  */
 @Component
