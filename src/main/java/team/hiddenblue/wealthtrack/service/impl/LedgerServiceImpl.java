@@ -87,6 +87,7 @@ public class LedgerServiceImpl implements LedgerService {
         Integer ownerId = ledgerMapper.getOwnerId(ledger.getOwner());
         //若没有找到用户ID则默认此项不作修改
         if(ownerId==null){
+            System.out.println("该用户名不存在,自动转换成默认用户名");
             ownerId = userId;
         }
         Integer updatedRow = ledgerMapper.update(ledger.getId(),
@@ -103,7 +104,12 @@ public class LedgerServiceImpl implements LedgerService {
      */
     @Override
     public Boolean delete(int ownerId, int ledgerId) {
+        if(ledgerMapper.selectByLedgerId(ledgerId)==null){
+            System.out.println("没有找到账单ID所属的账单信息");
+            return false;
+        }
         if(ledgerMapper.selectByLedgerId(ledgerId).getOwnerId()!=ownerId){
+            System.out.println("无权进行删除");
             return false;
         }
         if(ledgerMapper.delLedger(ledgerId) && ledgerMapper.delPermission(ledgerId)){

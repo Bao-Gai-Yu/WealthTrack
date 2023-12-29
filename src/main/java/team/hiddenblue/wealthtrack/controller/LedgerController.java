@@ -1,6 +1,8 @@
 package team.hiddenblue.wealthtrack.controller;
 
 import cn.dev33.satoken.stp.StpUtil;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import team.hiddenblue.wealthtrack.constant.ResponseCode;
 import team.hiddenblue.wealthtrack.dto.LedgerDto;
@@ -10,7 +12,9 @@ import team.hiddenblue.wealthtrack.service.LedgerService;
 
 @RestController
 @RequestMapping("/api/ledger")
+@RequiredArgsConstructor
 public class LedgerController {
+    @Autowired
     private LedgerService ledgerService;
 
     /**

@@ -16,14 +16,20 @@ public interface LedgerMapper {
     @Options(useGeneratedKeys = true,keyColumn = "id",keyProperty = "id")
     public Integer insertOne(Ledger ledger);
     @Insert("INSERT INTO ledger_permission(user_id, ledger_id)" +
-            " VALUES(#{ownerId}, #{id})")
+            " VALUES(#{userId}, #{ledgerId})")
     @Options(useGeneratedKeys = true,keyColumn = "id",keyProperty = "id")
     public Integer insertPermission(LedgerPermission ledgerPermission);
-    @Select("SELECT id,name,owner_id,template FROM ledger WHERE id = #{id}")
+    @Select("SELECT id, name, owner_id, template FROM ledger WHERE id = #{id}")
+    @Results({
+            @Result(property = "id", column = "id"),
+            @Result(property = "name", column = "name"),
+            @Result(property = "ownerId", column = "owner_id"),
+            @Result(property = "template", column = "template")
+    })
     public LedgerResult selectByLedgerId(Integer id);
     @Select("SELECT user_id FROM user WHERE username = #{username}")
     public Integer getOwnerId(String username);
-    @Update("UPDATE ledger SET name = #{name}, is_public = #{isPublic},ownerId = #{ownerId}, template = #{template} WHERE id = #{id}")
+    @Update("UPDATE ledger SET name = #{name}, is_public = #{isPublic},owner_id = #{ownerId}, template = #{template} WHERE id = #{id}")
     public Integer update(Integer id, String name, Boolean isPublic, Integer ownerId, String template);
     /**
      *删除ledger中的项后同样需要在ledger_permission表中删除项
