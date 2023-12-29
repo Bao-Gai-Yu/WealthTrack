@@ -1,13 +1,14 @@
 package team.hiddenblue.wealthtrack.service;
 
+import team.hiddenblue.wealthtrack.dto.LedgerDto;
 import team.hiddenblue.wealthtrack.pojo.Ledger;
 
 public interface LedgerService {
-    Integer insert(Ledger ledger);
+    Integer insert(LedgerDto ledger);
 
     Object selectLedgerByUserId(int userId);
 
-    Boolean update(Ledger ledger);
+    Boolean update(LedgerDto ledger);
 
     Boolean delete(int ownerId, int ledgerId);
 }

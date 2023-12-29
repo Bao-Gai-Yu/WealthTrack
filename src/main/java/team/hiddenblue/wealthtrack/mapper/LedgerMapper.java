@@ -21,8 +21,10 @@ public interface LedgerMapper {
     public Integer insertPermission(LedgerPermission ledgerPermission);
     @Select("SELECT id,name,owner_id,template FROM ledger WHERE id = #{id}")
     public LedgerResult selectByLedgerId(Integer id);
-    @Update("UPDATE ledger SET name = #{name}, password = #{password}, ownerId = #{ownerId}, template = #{template} WHERE id = #{id}")
-    public Integer update(Integer id, String name, String password, Boolean isPublic, Integer ownerId, String template);
+    @Select("SELECT user_id FROM user WHERE username = #{username}")
+    public Integer getOwnerId(String username);
+    @Update("UPDATE ledger SET name = #{name}, is_public = #{isPublic},ownerId = #{ownerId}, template = #{template} WHERE id = #{id}")
+    public Integer update(Integer id, String name, Boolean isPublic, Integer ownerId, String template);
     /**
      *删除ledger中的项后同样需要在ledger_permission表中删除项
      *向ledger_permission插入新行

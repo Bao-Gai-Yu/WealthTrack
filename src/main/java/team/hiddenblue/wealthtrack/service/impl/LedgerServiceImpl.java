@@ -4,6 +4,7 @@ import cn.dev33.satoken.stp.StpUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import team.hiddenblue.wealthtrack.constant.ResponseCode;
+import team.hiddenblue.wealthtrack.dto.LedgerDto;
 import team.hiddenblue.wealthtrack.dto.LedgerResult;
 import team.hiddenblue.wealthtrack.mapper.LedgerMapper;
 import team.hiddenblue.wealthtrack.mapper.LedgerPermissionMapper;
@@ -27,15 +28,20 @@ public class LedgerServiceImpl implements LedgerService {
      * 此处对账本密码进行MD5加密
      */
     @Override
-    public Integer insert(Ledger ledger) {
+    public Integer insert(LedgerDto ledger) {
         int userId = StpUtil.getLoginIdAsInt();
-        String md5Pwd = Md5Util.getMD5String(ledger.getPassword());
-        ledger.setPassword(md5Pwd);
-        ledger.setOwnerId(userId);
-        Integer insertLedgerRes = ledgerMapper.insertOne(ledger);
+//        String md5Pwd = Md5Util.getMD5String(ledger.getPassword());
+        Ledger insertLedger = Ledger.builder()
+                .id(ledger.getId())
+                .name(ledger.getName())
+                .password(null)
+                .isPublic(ledger.getIsPublic())
+                .ownerId(userId)
+                .template(ledger.getTemplate()).build();
+        Integer insertLedgerRes = ledgerMapper.insertOne(insertLedger);
         LedgerPermission ledgerPermission = LedgerPermission.builder()
-                .userId(ledger.getOwnerId())
-                .ledgerId(ledger.getId()).build();
+                .userId(insertLedger.getOwnerId())
+                .ledgerId(insertLedger.getId()).build();
         Integer insertPermissionRes = ledgerMapper.insertPermission(ledgerPermission);
         if(insertLedgerRes != 0 && insertPermissionRes != 0){
             return insertLedgerRes;
@@ -66,23 +72,27 @@ public class LedgerServiceImpl implements LedgerService {
      * 此处需要更新的密码同样进行MD5加密
      */
     @Override
-    public Boolean update(Ledger ledger) {
+    public Boolean update(LedgerDto ledger) {
         int userId = StpUtil.getLoginIdAsInt();
-        //检查需要修改的账本是否是用户所有
-        if(ledgerMapper.selectByLedgerId(ledger.getId()).getOwnerId()!=userId){
-            return null;
-        }
-        String md5Pwd = Md5Util.getMD5String(ledger.getPassword());
+//        //检查需要修改的账本是否是用户所有
+//        if(ledgerMapper.selectByLedgerId(ledger.getId()).getOwnerId()!=userId){
+//            return null;
+//        }
+//        String md5Pwd = Md5Util.getMD5String(ledger.getPassword());
         /**
          * 根据不同情况存在不同的更新方式
          * (1)账单没有进行转让，即ledger的OwnerId信息没有更改，此时处理如下
          * (2)账单进行了转让，即ledger的OwnerId变更了，此时还需要更新ledger_permission
          */
+        Integer ownerId = ledgerMapper.getOwnerId(ledger.getOwner());
+        //若没有找到用户ID则默认此项不作修改
+        if(ownerId==null){
+            ownerId = userId;
+        }
         Integer updatedRow = ledgerMapper.update(ledger.getId(),
                 ledger.getName(),
-                md5Pwd,
                 ledger.getIsPublic(),
-                ledger.getOwnerId(),
+                ownerId,
                 ledger.getTemplate()
                 );
         return updatedRow != 0;

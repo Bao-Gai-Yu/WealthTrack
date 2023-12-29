@@ -3,6 +3,7 @@ package team.hiddenblue.wealthtrack.controller;
 import cn.dev33.satoken.stp.StpUtil;
 import org.springframework.web.bind.annotation.*;
 import team.hiddenblue.wealthtrack.constant.ResponseCode;
+import team.hiddenblue.wealthtrack.dto.LedgerDto;
 import team.hiddenblue.wealthtrack.dto.Result;
 import team.hiddenblue.wealthtrack.pojo.Ledger;
 import team.hiddenblue.wealthtrack.service.LedgerService;
@@ -19,7 +20,7 @@ public class LedgerController {
      * @return json数据，包含：msg - 状态信息, code - 状态码, data - 表示MySQL中影响的行数
      */
     @PostMapping
-    public Object insert(@RequestBody Ledger ledger){
+    public Object insert(@RequestBody LedgerDto ledger){
         Integer insert = ledgerService.insert(ledger);
         if (insert == -ResponseCode.SERVER_ERROR.getCode()) {
             return Result.SERVER_ERROR("服务器开小差了");
@@ -48,7 +49,7 @@ public class LedgerController {
      * @return json数据，包含：msg - 状态信息, code - 状态码, data - null
      */
     @PutMapping
-    public Object update(@RequestBody Ledger ledger){
+    public Object update(@RequestBody LedgerDto ledger){
         Boolean isUpdated = ledgerService.update(ledger);
         if(isUpdated){
             return Result.SUCCESS("账本修改成功！");
