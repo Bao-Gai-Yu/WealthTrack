@@ -19,11 +19,12 @@ public interface LedgerMapper {
             " VALUES(#{userId}, #{ledgerId})")
     @Options(useGeneratedKeys = true,keyColumn = "id",keyProperty = "id")
     public Integer insertPermission(LedgerPermission ledgerPermission);
-    @Select("SELECT id, name, owner_id, template FROM ledger WHERE id = #{id}")
+    @Select("SELECT id, name, is_public, username, template FROM ledger,user WHERE id = #{id} AND owner_id = user_id")
     @Results({
             @Result(property = "id", column = "id"),
             @Result(property = "name", column = "name"),
-            @Result(property = "ownerId", column = "owner_id"),
+            @Result(property = "isPublic", column = "is_public"),
+            @Result(property = "owner", column = "username"),
             @Result(property = "template", column = "template")
     })
     public LedgerResult selectByLedgerId(Integer id);

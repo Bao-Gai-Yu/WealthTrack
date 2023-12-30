@@ -15,9 +15,15 @@ public class LedgerResult {
      */
     private String name;
     /**
-     * 账本所有者的用户id
+     * 账本可见性
+     * true - 公开
+     * false - 私密
      */
-    private Integer ownerId;
+    private Boolean isPublic;
+    /**
+     * 账本所有者用户名
+     */
+    private String owner;
     /**
      * 账本创建所用的模板
      */

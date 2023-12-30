@@ -110,10 +110,6 @@ public class LedgerServiceImpl implements LedgerService {
             System.out.println("没有找到账单ID所属的账单信息");
             return false;
         }
-        if (ledgerMapper.selectByLedgerId(ledgerId).getOwnerId() != ownerId) {
-            System.out.println("无权进行删除");
-            return false;
-        }
         if (ledgerMapper.delLedger(ledgerId) && ledgerMapper.delPermission(ledgerId)) {
             return true;
         }
