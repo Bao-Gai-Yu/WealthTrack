@@ -1,17 +1,18 @@
 package team.hiddenblue.wealthtrack.controller;
 
+import cn.dev33.satoken.stp.StpUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import team.hiddenblue.wealthtrack.constant.ResponseCode;
-import team.hiddenblue.wealthtrack.dto.ExpenseRecordResult;
+import team.hiddenblue.wealthtrack.dto.ExpensesRecordDto;
 import team.hiddenblue.wealthtrack.pojo.ExpensesRecord;
 import team.hiddenblue.wealthtrack.dto.Result;
 import team.hiddenblue.wealthtrack.service.ExpensesRecordService;
 import team.hiddenblue.wealthtrack.service.TextInService;
 
 import java.io.IOException;
-import java.util.List;
+import java.net.URLDecoder;
 import java.util.Map;
 
 @RestController
@@ -26,16 +27,20 @@ public class ExpensesRecordController {
     /**
      * 插入新的消费记录
      *
-     * @param expensesRecord 前端传来的数据
+     * @param expensesRecordDto 前端传来的数据
      * @return json数据，包含：msg - 状态信息, code - 状态码, data - 表示MySQL中影响的行数
      */
     @PostMapping
-    public Object insert(@RequestBody ExpensesRecord expensesRecord) {
+    public Object insert(@RequestBody ExpensesRecordDto expensesRecordDto) {
+        System.out.println("Dto: " + expensesRecordDto);
+        if(expensesRecordDto.getRemark() == null){
+            expensesRecordDto.setRemark("");
+        }
         //获取用户ID
-        expensesRecord.setUserId(1);
-        Integer insert = expensesRecordService.insert(expensesRecord);
+        Integer userId = StpUtil.getLoginIdAsInt();
+        Integer insert = expensesRecordService.insert(userId, expensesRecordDto.getLedger_id(), expensesRecordDto.getValue(), expensesRecordDto.getType(), expensesRecordDto.getKind(), expensesRecordDto.getRemark(), expensesRecordDto.getDate());
         if (insert == -ResponseCode.UN_AUTH.getCode()) {
-            return Result.UN_AUTH("无权操作该账本");
+            return Result.UN_AUTH("无权操作该账本:UserId->" + userId + " LedgerId->" + expensesRecordDto.getLedger_id());
         } else if (insert == -ResponseCode.SERVER_ERROR.getCode()) {
             return Result.SERVER_ERROR("服务器开小差了");
         } else {
@@ -51,7 +56,7 @@ public class ExpensesRecordController {
      */
     @PutMapping
     public Object update(@RequestBody ExpensesRecord expensesRecord) {
-        expensesRecord.setUserId(1);
+        expensesRecord.setUserId(StpUtil.getLoginIdAsInt());
         Boolean updated = expensesRecordService.update(expensesRecord);
         if (updated) {
             return Result.SUCCESS("修改成功！");
@@ -68,8 +73,8 @@ public class ExpensesRecordController {
      */
     @DeleteMapping("/{id}")
     public Object delete(@PathVariable Integer id) {
-        Boolean deleted = (Boolean) expensesRecordService.delete(id, 1);
-        if(deleted){
+        Boolean deleted = (Boolean) expensesRecordService.delete(id, StpUtil.getLoginIdAsInt());
+        if (deleted) {
             return Result.SUCCESS("删除成功！");
         } else {
             return Result.FAIL("删除失败！");
@@ -95,14 +100,24 @@ public class ExpensesRecordController {
                         @RequestParam(value = "type", required = false) Boolean type,
                         @RequestParam(value = "ledger_id", required = false) Integer ledgerId,
                         @RequestParam(value = "page_num") Integer pageNum,
-                        @RequestParam(value = "page_size") Integer pageSize) {
-        List<ExpensesRecord> fetchResult = expensesRecordService.getPagedExpenseRecord(1, ledgerId, year, month, date, type, pageNum, pageSize);
-        if (fetchResult == null){
-            return Result.FAIL("查询失败！");
-        }else if (fetchResult.size() == 0){
-            return Result.SUCCESS("未查询到结果！",fetchResult);
-        }else {
-            return Result.SUCCESS("查询成功！",fetchResult);
+                        @RequestParam(value = "page_size") Integer pageSize,
+                        @CookieValue(value = "satoken") String pbSession) {
+        System.out.println("controller-fetch-type:" + type);
+        System.out.println("pbSession: " + pbSession);
+        System.out.println("TokenValue: " + StpUtil.getTokenValue());
+        if (!StpUtil.getTokenValue().equals(pbSession)) {
+            return Result.FORBIDDEN("会话错误，操作失败！");
+        }
+        Map<String, Object> fetchResult = expensesRecordService.getPagedExpenseRecord(StpUtil.getLoginIdAsInt(), ledgerId, year, month, date, type, pageNum, pageSize);
+        Integer resSize = (Integer) fetchResult.get("total");
+        if (resSize == 0) {
+            System.out.println("未查询到结果！");
+            return Result.SUCCESS("未查询到结果！", fetchResult);
+        } else {
+            System.out.println("查询成功！");
+            Object obj = Result.SUCCESS("查询成功！", fetchResult);
+            System.out.println(obj);
+            return Result.SUCCESS("查询成功！", fetchResult);
         }
     }
 

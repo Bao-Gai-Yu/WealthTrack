@@ -33,7 +33,7 @@ public class TextInServiceImpl implements TextInService {
      * @param img
      * @return
      */
-    public ExpenseRecordResult insertByTicket(byte[] img) {
+    public ExpensesRecordResult insertByTicket(byte[] img) {
 
         //将图片发送到TextApi接口，提取文本信息后存储在result中
         Object result = TextInFetch.post(TextInApi.TRAIN_TICKET, processImage(img));
@@ -58,7 +58,7 @@ public class TextInServiceImpl implements TextInService {
             }
         }
         String remark = "本张火车票是从 " + departureStation + " 到 " + arrivalStation + " 的火车票";
-        return ExpenseRecordResult.builder()
+        return ExpensesRecordResult.builder()
                 .type(true)
                 .value(value)
                 .kind("traffic")
@@ -66,7 +66,7 @@ public class TextInServiceImpl implements TextInService {
                 .date(dateRaw).build();
     }
 
-    public ExpenseRecordResult insertByVoice(String sentence) {
+    public ExpensesRecordResult insertByVoice(String sentence) {
         String dateRaw = null;
         Calendar calendar = Calendar.getInstance();
         if (sentence.contains("年") && sentence.contains("月") && sentence.contains("日")) {
@@ -99,7 +99,7 @@ public class TextInServiceImpl implements TextInService {
         }
         remark = s1[0];
         value = s1[1].substring(0, s1[1].length() - 1);
-        return ExpenseRecordResult.builder()
+        return ExpensesRecordResult.builder()
                 .date(dateRaw)
                 .remark(remark)
                 .value(value)
@@ -107,7 +107,7 @@ public class TextInServiceImpl implements TextInService {
     }
 
 
-    public ExpenseRecordResult insertByCommonImg(byte []img) {
+    public ExpensesRecordResult insertByCommonImg(byte []img) {
         Object result = TextInFetch.post(TextInApi.COMMON_RECOGNIZE, processImage(img));
         ObjectMapper objectMapper = new ObjectMapper();
         ImageResult imageResult = objectMapper.convertValue(result, ImageResult.class);
@@ -164,7 +164,7 @@ public class TextInServiceImpl implements TextInService {
                 timeFlag = 2;
             }
         }
-        return ExpenseRecordResult.builder()
+        return ExpensesRecordResult.builder()
                 .type(true)
                 .value(value != null ? value : subValue)
                 .kind("")
@@ -177,7 +177,7 @@ public class TextInServiceImpl implements TextInService {
      * @param img
      * @return
      */
-    public ExpenseRecordResult insertByReceipt(byte[] img) {
+    public ExpensesRecordResult insertByReceipt(byte[] img) {
 
         //将图片发送到TextApi接口，提取文本信息后存储在result中
         Object result = TextInFetch.post(TextInApi.RECEIPT, processImage(img));
@@ -208,7 +208,7 @@ public class TextInServiceImpl implements TextInService {
 
 
         String remark = "本张小票是在"+ shop +"消费,购买的商品为：" + formattedSku;
-        return ExpenseRecordResult.builder()
+        return ExpensesRecordResult.builder()
                 .type(true)
                 .value(money)
                 .kind("shopping")

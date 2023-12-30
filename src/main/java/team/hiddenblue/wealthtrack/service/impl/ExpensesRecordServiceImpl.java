@@ -4,7 +4,6 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import team.hiddenblue.wealthtrack.constant.ResponseCode;
-import team.hiddenblue.wealthtrack.dto.ExpenseRecordResult;
 import team.hiddenblue.wealthtrack.pojo.ExpensesRecord;
 import team.hiddenblue.wealthtrack.pojo.LedgerPermission;
 import team.hiddenblue.wealthtrack.mapper.ExpensesRecordMapper;
@@ -23,7 +22,8 @@ public class ExpensesRecordServiceImpl implements ExpensesRecordService {
     LedgerPermissionMapper ledgerPermissionMapper;
 
     @Override
-    public List<ExpensesRecord> getPagedExpenseRecord(Integer userId, Integer ledgerId, String year, String month, String date, Boolean type, Integer pageNum, Integer pageSize) {
+    public Map<String, Object> getPagedExpenseRecord(Integer userId, Integer ledgerId, String year, String month, String date, Boolean type, Integer pageNum, Integer pageSize) {
+        System.out.println("Do getPagedExpenseRecord()");
         //查询开始的时间
         Date startTime = null;
         //查询结束的时间
@@ -55,38 +55,59 @@ public class ExpensesRecordServiceImpl implements ExpensesRecordService {
             pe.printStackTrace();
         }
 
-        System.out.println(startTime);
-        System.out.println(endTime);
-
+        System.out.println("开始日期：" + startTime);
+        System.out.println("结束日期：" + endTime);
+        System.out.println("用户ID：" + userId);
+        System.out.println("账本ID：" + ledgerId);
         //校验是否具有操作当前账本的权限
         LedgerPermission ledgerPermission = ledgerPermissionMapper.getOne(userId, ledgerId);
         if (ledgerPermission == null) {
+            System.out.println("NO PERMISSION");
             return null;
         }
-
+        System.out.println(ledgerPermission);
+        System.out.println("pageNum:" + pageNum);
+        System.out.println("pageSize:" + pageSize);
         int offset = (pageNum - 1) * pageSize;
         RowBounds rowBounds = new RowBounds(offset, pageSize);
+        System.out.println(rowBounds);
+        System.out.println("userId:" + userId);
+        System.out.println("ledgerId:" + ledgerId);
+        System.out.println("type:" + type);
+        List<ExpensesRecord> list = null;
+        if (type == null) {
+            list = expensesRecordMapper.getPagedByTimeZone(rowBounds, userId, ledgerId, startTime, endTime);
+        } else {
+            list = expensesRecordMapper.getPagedByTimeZoneAndType(rowBounds, userId, ledgerId, type, startTime, endTime);
+        }
 
-        List<ExpensesRecord> list = expensesRecordMapper.getPagedByTimeZone(rowBounds, userId, ledgerId, type, startTime, endTime);
-        return list;
+        System.out.println(list.size());
+        System.out.println(list);
+        Map<String, Object> res = new HashMap<>(4);
+        res.put("pageNumber", offset);
+        res.put("pageSize", pageSize);
+        res.put("total", list.size());
+        res.put("result", list);
+        System.out.println(res);
+        return res;
 
     }
 
     @Override
-    public Integer insert(ExpensesRecord expensesRecord) {
+    public Integer insert(int userId, int ledgerId, Double value, boolean type, String kind, String remark, Date dateRaw) {
+        System.out.println("Do insert");
         //校验是否具有操作当前账本的权限
-        LedgerPermission ledgerPermission = ledgerPermissionMapper.getOne(expensesRecord.getUserId(), expensesRecord.getLedgerId());
+        System.out.println("UserId:" + userId);
+        System.out.println("LedgerId:" + ledgerId);
+        LedgerPermission ledgerPermission = ledgerPermissionMapper.getOne(userId, ledgerId);
         if (ledgerPermission == null) {
+            System.out.println("NO PERMISSION!");
             return -ResponseCode.UN_AUTH.getCode();
         }
-        Integer insertRes = expensesRecordMapper.insert(expensesRecord.getUserId(),
-                expensesRecord.getLedgerId(),
-                expensesRecord.getValue(),
-                expensesRecord.getType(),
-                expensesRecord.getKind(),
-                expensesRecord.getRemark(),
-                expensesRecord.getDate());
+        System.out.println(ledgerPermission);
+        Integer insertRes = expensesRecordMapper.insert(userId, ledgerId, value, type, kind, remark, dateRaw);
         if (insertRes != 0) {
+            System.out.println(insertRes);
             return insertRes;
         }
         return -ResponseCode.SERVER_ERROR.getCode();
@@ -106,6 +127,8 @@ public class ExpensesRecordServiceImpl implements ExpensesRecordService {
 
     @Override
     public Boolean delete(Integer id, Integer userId) {
+        System.out.println("Do delete");
+        System.out.println("id:" + id + " userId:" + userId);
         if (hasExpensesRecordPermission(id, userId)) {
             return false;
         }
@@ -114,6 +137,7 @@ public class ExpensesRecordServiceImpl implements ExpensesRecordService {
 
     @Override
     public Boolean update(ExpensesRecord expensesRecord) {
+        System.out.println("Do update");
         Integer id = expensesRecord.getId();
         Integer userId = expensesRecord.getUserId();
         Double value = expensesRecord.getValue();
@@ -128,4 +152,96 @@ public class ExpensesRecordServiceImpl implements ExpensesRecordService {
         int effectedRow = expensesRecordMapper.update(id, value, type, kind, date, remark);
         return effectedRow != 0;
     }
+
+    /**
+     * 精确查询kind与模糊查询remark的结果。
+     *
+     * @param kind 种类
+     * @param remark 备注
+     * @return
+     */
+    @Override
+    public Map<String, Object> getSelecetdExpensesRecord(int userId, String kind, String remark, Integer ledgerId, String year, String month, String date, Boolean type, Integer pageNum, Integer pageSize) {
+        //查询开始的时间
+        Date startTime = null;
+        //查询结束的时间
+        Date endTime = null;
+        try {
+
+            if (!date.equals("")) {//如果提供了具体日期
+                startTime = TimeUtil.tranStringToDate(date);
+                Calendar endCalendar = Calendar.getInstance();
+                endCalendar.setTime(startTime);
+                endCalendar.add(Calendar.DAY_OF_YEAR, 1);
+                endTime = endCalendar.getTime();
+            } else if (!month.equals("")) {//如果只提供了某年某月，转换时间为某个月起止
+                startTime = TimeUtil.tranStringToDate(month + "-01");
+                endTime = TimeUtil.tranStringToDate(month + "-01");
+                Calendar endCalendar = Calendar.getInstance();
+                endCalendar.setTime(endTime);
+                endCalendar.add(Calendar.MONTH, 1);
+                endTime = endCalendar.getTime();
+            } else if (!year.equals("")) {//如果只提供了年份，转换时间为某年起止。
+                startTime = TimeUtil.tranStringToDate(year + "-01-01");
+                endTime = TimeUtil.tranStringToDate(year + "-01-01");
+                Calendar endCalendar = Calendar.getInstance();
+                endCalendar.setTime(endTime);
+                endCalendar.add(Calendar.YEAR, 1);
+                endTime = endCalendar.getTime();
+            }
+        } catch (ParseException pe) {
+            pe.printStackTrace();
+        }
+
+        System.out.println("开始日期：" + startTime);
+        System.out.println("结束日期：" + endTime);
+        System.out.println("用户ID：" + userId);
+        System.out.println("账本ID：" + ledgerId);
+        //校验是否具有操作当前账本的权限
+        LedgerPermission ledgerPermission = ledgerPermissionMapper.getOne(userId, ledgerId);
+        if (ledgerPermission == null) {
+            System.out.println("NO PERMISSION");
+            return null;
+        }
+        System.out.println(ledgerPermission);
+        System.out.println("pageNum:" + pageNum);
+        System.out.println("pageSize:" + pageSize);
+        int offset = (pageNum - 1) * pageSize;
+        RowBounds rowBounds = new RowBounds(offset, pageSize);
+        System.out.println(rowBounds);
+        System.out.println("userId:" + userId);
+        System.out.println("ledgerId:" + ledgerId);
+        System.out.println("type:" + type);
+        List<ExpensesRecord> list = null;
+        if (type == null) {
+            list = expensesRecordMapper.getPagedByTimeZone(rowBounds, userId, ledgerId, startTime, endTime);
+        } else {
+            list = expensesRecordMapper.getPagedByTimeZoneAndType(rowBounds, userId, ledgerId, type, startTime, endTime);
+        }
+        System.out.println(list.size());
+        System.out.println(list);
+        System.out.println("----");
+        System.out.println("kind:" + kind);
+        System.out.println("remark:" + remark);
+        Iterator<ExpensesRecord> iterator = list.iterator();
+        while (iterator.hasNext()) {
+            ExpensesRecord e = iterator.next();
+            System.out.println("==> " + e.getKind());
+            System.out.println("==> " + e.getRemark());
+            if (!(kind.equals(e.getKind()) || e.getRemark().contains(remark))) {
+                iterator.remove();
+            }
+        }
+        System.out.println("----");
+        System.out.println(list.size());
+        System.out.println(list);
+        Map<String, Object> res = new HashMap<>(4);
+        res.put("pageNumber", offset);
+        res.put("pageSize", pageSize);
+        res.put("total", list.size());
+        res.put("result", list);
+        System.out.println(res);
+        return res;
+    }
+
 }
