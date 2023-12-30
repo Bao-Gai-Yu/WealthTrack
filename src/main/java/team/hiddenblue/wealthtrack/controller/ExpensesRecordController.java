@@ -34,6 +34,9 @@ public class ExpensesRecordController {
     @PostMapping
     public Object insert(@RequestBody ExpensesRecordDto expensesRecordDto) {
         System.out.println("Dto: " + expensesRecordDto);
+        if(expensesRecordDto.getRemark() == null){
+            expensesRecordDto.setRemark("");
+        }
         //获取用户ID
         Integer userId = StpUtil.getLoginIdAsInt();
         Integer insert = expensesRecordService.insert(userId, expensesRecordDto.getLedger_id(), expensesRecordDto.getValue(), expensesRecordDto.getType(), expensesRecordDto.getKind(), expensesRecordDto.getRemark(), expensesRecordDto.getDate());
