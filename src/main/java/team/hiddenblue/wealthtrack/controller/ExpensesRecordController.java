@@ -12,6 +12,7 @@ import team.hiddenblue.wealthtrack.service.ExpensesRecordService;
 import team.hiddenblue.wealthtrack.service.TextInService;
 
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.util.Map;
 
 @RestController
@@ -120,28 +121,33 @@ public class ExpensesRecordController {
 
     /**
      * 对kind进行精确查询和remark模糊查询
-     * @param kind      种类
-     * @param remark    备注
+     *
+     * @param kind   种类
+     * @param encodedRemark 前端传入的备注（经过URL编码的字符串）
      * @return json数据，包含：msg - 状态信息, code - 状态码, data - 查询结果
      */
     @GetMapping("/select")
     public Object querySelect(@RequestParam(value = "kind") String kind,
-                              @RequestParam(value = "remark") String remark,
+                              @RequestParam(value = "remark") String encodedRemark,
                               @RequestParam(value = "ledger_id") Integer ledgerId,
-                              @RequestParam(value = "date") String date,
-                              @RequestParam(value = "month") String month,
-                              @RequestParam(value = "year") String year,
-                              @RequestParam(value = "type") Boolean type,
+                              @RequestParam(value = "date", required = false) String date,
+                              @RequestParam(value = "month", required = false) String month,
+                              @RequestParam(value = "year", required = false) String year,
+                              @RequestParam(value = "type", required = false) Boolean type,
                               @RequestParam(value = "page_num") Integer pageNum,
                               @RequestParam(value = "page_size") Integer pageSize,
                               @CookieValue(value = "satoken") String pbSession) {
         System.out.println("Do querySelect");
         System.out.println("pbSession:" + pbSession);
         System.out.println("tokenValue:" + StpUtil.getTokenValue());
+        System.out.println(type == null);
         if (!StpUtil.getTokenValue().equals(pbSession)) {
             return Result.FORBIDDEN("会话错误，操作失败！");
         }
-        Map<String, Object> queryResult = expensesRecordService.getSelecetdExpensesRecord(StpUtil.getLoginIdAsInt(), kind, remark, ledgerId, year, month, date, type, pageNum, pageSize);
+        System.out.println("encodedRemark: "+encodedRemark);
+        String decodedRemark = URLDecoder.decode(encodedRemark);
+        System.out.println("decodedRemark: "+decodedRemark);
+        Map<String, Object> queryResult = expensesRecordService.getSelecetdExpensesRecord(StpUtil.getLoginIdAsInt(), kind, decodedRemark, ledgerId, year, month, date, type, pageNum, pageSize);
         return queryResult;
     }
 
