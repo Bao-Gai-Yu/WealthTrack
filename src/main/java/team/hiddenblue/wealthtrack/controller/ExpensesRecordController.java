@@ -122,7 +122,7 @@ public class ExpensesRecordController {
     /**
      * 对kind进行精确查询和remark模糊查询
      *
-     * @param kind   种类
+     * @param kind          种类
      * @param encodedRemark 前端传入的备注（经过URL编码的字符串）
      * @return json数据，包含：msg - 状态信息, code - 状态码, data - 查询结果
      */
@@ -144,11 +144,11 @@ public class ExpensesRecordController {
         if (!StpUtil.getTokenValue().equals(pbSession)) {
             return Result.FORBIDDEN("会话错误，操作失败！");
         }
-        System.out.println("encodedRemark: "+encodedRemark);
+        System.out.println("encodedRemark: " + encodedRemark);
         String decodedRemark = URLDecoder.decode(encodedRemark);
-        System.out.println("decodedRemark: "+decodedRemark);
+        System.out.println("decodedRemark: " + decodedRemark);
         Map<String, Object> queryResult = expensesRecordService.getSelecetdExpensesRecord(StpUtil.getLoginIdAsInt(), kind, decodedRemark, ledgerId, year, month, date, type, pageNum, pageSize);
-        return queryResult;
+        return Result.SUCCESS("查询成功！", queryResult);
     }
 
     /**
