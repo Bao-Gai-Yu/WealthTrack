@@ -40,4 +40,12 @@ public interface LedgerMapper {
     @Delete("DELETE FROM ledger_permission WHERE ledger_id = #{ledgerId}")
     public Boolean delPermission(Integer ledgerId);
 
+    /**
+     * 通过账本密钥查找账本
+     * @param password
+     * @return
+     */
+    @Select("select * from ledger where password = #{password}")
+    Ledger findByPassword(String password);
+
 }

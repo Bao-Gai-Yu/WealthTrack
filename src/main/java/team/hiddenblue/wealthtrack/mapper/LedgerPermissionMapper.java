@@ -1,6 +1,8 @@
 package team.hiddenblue.wealthtrack.mapper;
 
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
 import team.hiddenblue.wealthtrack.pojo.LedgerPermission;
 
@@ -12,4 +14,5 @@ public interface LedgerPermissionMapper {
     public LedgerPermission getOne(Integer userId, Integer ledgerId);
     @Select("select * from ledger_permission where user_id = #{userId}")
     public List<LedgerPermission> selectByUser(Integer userId);
+
 }

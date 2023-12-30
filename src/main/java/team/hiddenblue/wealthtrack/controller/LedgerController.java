@@ -78,4 +78,17 @@ public class LedgerController {
             return Result.FAIL("账本删除失败！");
         }
     }
+
+
+    /**
+     * 共享账本，加入别人的账本
+     * @param password 账本密钥
+     * @return
+     */
+    @PostMapping("/share")
+    public Object share(@RequestParam String password) {
+        ledgerService.share(StpUtil.getLoginIdAsInt(), password);
+        return Result.SUCCESS();
+    }
+
 }

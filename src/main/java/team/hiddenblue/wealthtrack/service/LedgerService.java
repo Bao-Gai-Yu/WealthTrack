@@ -11,4 +11,6 @@ public interface LedgerService {
     Boolean update(LedgerDto ledger);
 
     Boolean delete(int ownerId, int ledgerId);
+
+    void share(int userId, String password);
 }
