@@ -24,7 +24,6 @@ public class ExpensesRecordController {
     @Autowired
     private TextInService textInService;
 
-
     /**
      * 插入新的消费记录
      *
@@ -34,6 +33,9 @@ public class ExpensesRecordController {
     @PostMapping
     public Object insert(@RequestBody ExpensesRecordDto expensesRecordDto) {
         System.out.println("Dto: " + expensesRecordDto);
+        if(expensesRecordDto.getRemark() == null){
+            expensesRecordDto.setRemark("");
+        }
         //获取用户ID
         Integer userId = StpUtil.getLoginIdAsInt();
         Integer insert = expensesRecordService.insert(userId, expensesRecordDto.getLedger_id(), expensesRecordDto.getValue(), expensesRecordDto.getType(), expensesRecordDto.getKind(), expensesRecordDto.getRemark(), expensesRecordDto.getDate());
@@ -160,7 +162,12 @@ public class ExpensesRecordController {
      */
     @PostMapping("/train_ticket")
     public Object insertByTicket(@RequestParam("photo") MultipartFile photo) throws IOException {
-        return Result.SUCCESS(textInService.insertByTicket(photo.getBytes()));
+        if(photo != null && !photo.isEmpty()) {
+            return Result.SUCCESS(textInService.insertByTicket(photo.getBytes()));
+        }
+        else{
+            return Result.NOT_FOUND("图片为空");
+        }
     }
 
     /**
@@ -177,20 +184,29 @@ public class ExpensesRecordController {
 
     @PostMapping("/photo")
     public Object insertByCommonImg(@RequestParam("photo") MultipartFile photo) throws IOException {
-        return Result.SUCCESS(textInService.insertByCommonImg(photo.getBytes()));
+        if(photo != null && !photo.isEmpty()) {
+            return Result.SUCCESS(textInService.insertByCommonImg(photo.getBytes()));
+        }
+        else{
+            return Result.NOT_FOUND("图片为空");
+        }
     }
 
 
     /**
      * 根据商铺小票自动识别消费记录
-     *
      * @param photo
      * @return
      * @throws IOException
      */
     @PostMapping("/receipt")
-    public Object insertByReceipt(@RequestParam("photo") MultipartFile photo) throws IOException {
-        return Result.SUCCESS(textInService.insertByReceipt(photo.getBytes()));
+    public Object insertByReceipt(@RequestParam("photo") MultipartFile photo) throws IOException{
+        if(photo != null && !photo.isEmpty()) {
+            return Result.SUCCESS(textInService.insertByReceipt(photo.getBytes()));
+        }
+        else{
+            return Result.NOT_FOUND("图片为空");
+        }
     }
 
 }
