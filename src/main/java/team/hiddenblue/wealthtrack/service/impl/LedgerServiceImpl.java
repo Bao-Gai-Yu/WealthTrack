@@ -64,7 +64,9 @@ public class LedgerServiceImpl implements LedgerService {
         List<LedgerResult> ledgers = new ArrayList<>();
         for (LedgerPermission ledgerPermission : ledgerPermissions) {
             LedgerResult ledger = ledgerMapper.selectByLedgerId(ledgerPermission.getLedgerId());
-            ledgers.add(ledger);
+            if(ledger!=null){
+                ledgers.add(ledger);
+            }
         }
         System.out.println(ledgers);
         return ledgers;
@@ -106,9 +108,14 @@ public class LedgerServiceImpl implements LedgerService {
      * 删除账本
      */
     @Override
-    public Boolean delete(int ownerId, int ledgerId) {
+    public Boolean delete(int operatorId, int ledgerId) {
         if (ledgerMapper.selectByLedgerId(ledgerId) == null) {
             System.out.println("没有找到账单ID所属的账单信息");
+            return false;
+        }
+        //防止在共享账本中非账本拥有者误删账本
+        if(ledgerMapper.getLedgerOwner(ledgerId)!=operatorId){
+            System.out.println("你不是该账单拥有者，无权限删除！");
             return false;
         }
         if (ledgerMapper.delLedger(ledgerId) && ledgerMapper.delPermission(ledgerId)) {

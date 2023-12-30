@@ -10,7 +10,7 @@ public interface LedgerService {
 
     Boolean update(LedgerDto ledger);
 
-    Boolean delete(int ownerId, int ledgerId);
+    Boolean delete(int operatorId, int ledgerId);
 
     void share(int userId, String password);
 }
