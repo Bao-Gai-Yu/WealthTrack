@@ -1,13 +1,13 @@
 package team.hiddenblue.wealthtrack.service;
 
-import team.hiddenblue.wealthtrack.dto.ExpenseRecordResult;
+import team.hiddenblue.wealthtrack.dto.ExpensesRecordResult;
 
 public interface TextInService {
-    ExpenseRecordResult insertByTicket(byte[] img);
+    ExpensesRecordResult insertByTicket(byte[] img);
 
-    ExpenseRecordResult insertByVoice(String sentence);
+    ExpensesRecordResult insertByVoice(String sentence);
 
-    ExpenseRecordResult insertByCommonImg(byte []img);
+    ExpensesRecordResult insertByCommonImg(byte []img);
 
-    ExpenseRecordResult insertByReceipt(byte[] img);
+    ExpensesRecordResult insertByReceipt(byte[] img);
 }

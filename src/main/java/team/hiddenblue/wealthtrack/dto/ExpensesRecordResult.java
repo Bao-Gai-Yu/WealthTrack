@@ -12,7 +12,7 @@ import lombok.Data;
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class ExpenseRecordResult {
+public class ExpensesRecordResult {
     /**
      * 记录id
      */
