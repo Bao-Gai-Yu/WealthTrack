@@ -30,6 +30,8 @@ public interface LedgerMapper {
     public LedgerResult selectByLedgerId(Integer id);
     @Select("SELECT user_id FROM user WHERE username = #{username}")
     public Integer getOwnerId(String username);
+    @Select("SELECT owner_id FROM ledger WHERE id = #{ledgerId}")
+    public Integer getLedgerOwner(Integer ledgerId);
     @Update("UPDATE ledger SET name = #{name}, is_public = #{isPublic},owner_id = #{ownerId}, template = #{template} WHERE id = #{id}")
     public Integer update(Integer id, String name, Boolean isPublic, Integer ownerId, String template);
     /**
