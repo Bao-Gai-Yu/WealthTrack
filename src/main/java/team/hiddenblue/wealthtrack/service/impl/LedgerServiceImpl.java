@@ -66,6 +66,7 @@ public class LedgerServiceImpl implements LedgerService {
             LedgerResult ledger = ledgerMapper.selectByLedgerId(ledgerPermission.getLedgerId());
             ledgers.add(ledger);
         }
+        System.out.println(ledgers);
         return ledgers;
     }
 

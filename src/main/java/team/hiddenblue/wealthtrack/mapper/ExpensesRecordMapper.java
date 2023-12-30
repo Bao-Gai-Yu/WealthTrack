@@ -2,7 +2,6 @@ package team.hiddenblue.wealthtrack.mapper;
 
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.session.RowBounds;
-import team.hiddenblue.wealthtrack.dto.ExpenseRecordResult;
 import team.hiddenblue.wealthtrack.pojo.ExpensesRecord;
 
 import java.util.Date;
@@ -12,17 +11,16 @@ import java.util.List;
 public interface ExpensesRecordMapper {
     @Select("SELECT * FROM expenses_record WHERE user_id = #{userId}" +
             " AND ledger_id = #{ledgerId}" +
-            " AND type = #{type}" +
             " AND date >= #{startTime}" +
             " AND date <= #{endTime}")
-    public List<ExpensesRecord> getByTimeZone(Integer userId, Integer ledgerId, Boolean type, Date startTime, Date endTime);
+    public List<ExpensesRecord> getPagedByTimeZone(RowBounds rowBounds, Integer userId, Integer ledgerId, Date startTime, Date endTime);
 
-    @Select("SELECT * FROM expenses_record WHERE user_id = #{userId}" +
-            " AND ledger_id = #{ledgerId}" +
-            " AND type = #{type}" +
-            " AND date >= #{startTime}" +
-            " AND date < #{endTime}")
-    public List<ExpensesRecord> getPagedByTimeZone(RowBounds rowBounds, Integer userId, Integer ledgerId, Boolean type, Date startTime, Date endTime);
+    @Select({"SELECT * FROM expenses_record WHERE user_id = #{userId}",
+            " AND ledger_id = #{ledgerId}",
+            " AND type = #{type}",
+            " AND date >= #{startTime}",
+            " AND date < #{endTime}"})
+    public List<ExpensesRecord> getPagedByTimeZoneAndType(RowBounds rowBounds, Integer userId, Integer ledgerId, Boolean type, Date startTime, Date endTime);
 
     @Insert("INSERT INTO expenses_record(user_id, ledger_id, value, type, kind, remark, date, create_date)" +
             "VALUES(#{userId}, #{ledgerId}, #{value}, #{type}, #{kind}, #{remark}, #{date}, NOW())")
