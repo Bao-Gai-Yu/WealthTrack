@@ -13,4 +13,6 @@ public interface ExpensesRecordService {
     public Object delete(Integer id, Integer userId);
 
     public Boolean update(ExpensesRecord expensesRecord);
+
+    public Map<String, Object> getSelecetdExpensesRecord(int userId, String kind, String remark, Integer ledgerId, String year, String month, String date, Boolean type, Integer pageNum, Integer pageSize);
 }
