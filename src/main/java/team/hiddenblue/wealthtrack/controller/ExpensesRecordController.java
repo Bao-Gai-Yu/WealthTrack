@@ -115,7 +115,12 @@ public class ExpensesRecordController {
      */
     @PostMapping("/train_ticket")
     public Object insertByTicket(@RequestParam("photo") MultipartFile photo) throws IOException {
-        return Result.SUCCESS(textInService.insertByTicket(photo.getBytes()));
+        if(photo != null && !photo.isEmpty()) {
+            return Result.SUCCESS(textInService.insertByTicket(photo.getBytes()));
+        }
+        else{
+            return Result.NOT_FOUND("图片为空");
+        }
     }
 
     /**
@@ -132,7 +137,12 @@ public class ExpensesRecordController {
 
     @PostMapping("/photo")
     public Object insertByCommonImg(@RequestParam("photo") MultipartFile photo) throws IOException {
-        return Result.SUCCESS(textInService.insertByCommonImg(photo.getBytes()));
+        if(photo != null && !photo.isEmpty()) {
+            return Result.SUCCESS(textInService.insertByCommonImg(photo.getBytes()));
+        }
+        else{
+            return Result.NOT_FOUND("图片为空");
+        }
     }
 
 
@@ -144,7 +154,12 @@ public class ExpensesRecordController {
      */
     @PostMapping("/receipt")
     public Object insertByReceipt(@RequestParam("photo") MultipartFile photo) throws IOException{
-        return Result.SUCCESS(textInService.insertByReceipt(photo.getBytes()));
+        if(photo != null && !photo.isEmpty()) {
+            return Result.SUCCESS(textInService.insertByReceipt(photo.getBytes()));
+        }
+        else{
+            return Result.NOT_FOUND("图片为空");
+        }
     }
 
 }
