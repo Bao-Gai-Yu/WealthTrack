@@ -38,9 +38,9 @@ public class ExpensesRecordController {
         }
         //获取用户ID
         Integer userId = StpUtil.getLoginIdAsInt();
-        Integer insert = expensesRecordService.insert(userId, expensesRecordDto.getLedger_id(), expensesRecordDto.getValue(), expensesRecordDto.getType(), expensesRecordDto.getKind(), expensesRecordDto.getRemark(), expensesRecordDto.getDate());
+        Integer insert = expensesRecordService.insert(userId, expensesRecordDto.getLedgerId(), expensesRecordDto.getValue(), expensesRecordDto.getType(), expensesRecordDto.getKind(), expensesRecordDto.getRemark(), expensesRecordDto.getDate());
         if (insert == -ResponseCode.UN_AUTH.getCode()) {
-            return Result.UN_AUTH("无权操作该账本:UserId->" + userId + " LedgerId->" + expensesRecordDto.getLedger_id());
+            return Result.UN_AUTH("无权操作该账本:UserId->" + userId + " LedgerId->" + expensesRecordDto.getLedgerId());
         } else if (insert == -ResponseCode.SERVER_ERROR.getCode()) {
             return Result.SERVER_ERROR("服务器开小差了");
         } else {
@@ -83,6 +83,7 @@ public class ExpensesRecordController {
 
     /**
      * 获取分页了的符合条件的消费记录
+     * 查的是当前账本的记录（不按照userId查询，因为共享账本需要显示所有在该账本编辑的用户的记录）
      *
      * @param date     查询的具体日期
      * @param month    按月查询
@@ -123,6 +124,7 @@ public class ExpensesRecordController {
 
     /**
      * 对kind进行精确查询和remark模糊查询
+     * 全账本搜索当前用户的相关记录
      *
      * @param kind          种类
      * @param encodedRemark 前端传入的备注（经过URL编码的字符串）

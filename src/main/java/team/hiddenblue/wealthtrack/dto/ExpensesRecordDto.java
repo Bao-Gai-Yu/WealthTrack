@@ -24,7 +24,11 @@ public class ExpensesRecordDto {
     /**
      * 账本id
      */
-    private Integer ledger_id;
+    private Integer ledgerId;
+    /**
+     * 账号
+     */
+    private Integer accountId;
     /**
      * 消费金额
      */
@@ -45,4 +49,12 @@ public class ExpensesRecordDto {
      * 消费日期
      */
     private Date date;
+    /**
+     * 创建日期
+     */
+    private Date createDate;
+    /**
+     * 用户姓名
+     */
+    private String username;
 }

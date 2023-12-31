@@ -4,6 +4,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import team.hiddenblue.wealthtrack.constant.ResponseCode;
+import team.hiddenblue.wealthtrack.dto.ExpensesRecordDto;
 import team.hiddenblue.wealthtrack.pojo.ExpensesRecord;
 import team.hiddenblue.wealthtrack.pojo.LedgerPermission;
 import team.hiddenblue.wealthtrack.mapper.ExpensesRecordMapper;
@@ -74,11 +75,12 @@ public class ExpensesRecordServiceImpl implements ExpensesRecordService {
         System.out.println("userId:" + userId);
         System.out.println("ledgerId:" + ledgerId);
         System.out.println("type:" + type);
-        List<ExpensesRecord> list = null;
+        List<ExpensesRecordDto> list = null;
+        //按照账本id查询记录
         if (type == null) {
-            list = expensesRecordMapper.getPagedByTimeZone(rowBounds, userId, ledgerId, startTime, endTime);
+            list = expensesRecordMapper.getPagedByLedgerIdAndTimeZone(rowBounds, userId, ledgerId, startTime, endTime);
         } else {
-            list = expensesRecordMapper.getPagedByTimeZoneAndType(rowBounds, userId, ledgerId, type, startTime, endTime);
+            list = expensesRecordMapper.getPagedByLedgerIdAndTimeZoneAndType(rowBounds, userId, ledgerId, type, startTime, endTime);
         }
 
         System.out.println(list.size());
@@ -155,6 +157,7 @@ public class ExpensesRecordServiceImpl implements ExpensesRecordService {
 
     /**
      * 精确查询kind与模糊查询remark的结果。
+     * 全账本搜索当前用户的相关记录
      *
      * @param kind 种类
      * @param remark 备注
@@ -212,20 +215,21 @@ public class ExpensesRecordServiceImpl implements ExpensesRecordService {
         System.out.println("userId:" + userId);
         System.out.println("ledgerId:" + ledgerId);
         System.out.println("type:" + type);
-        List<ExpensesRecord> list = null;
+        List<ExpensesRecordDto> list = null;
+        //按照userId进行查询
         if (type == null) {
-            list = expensesRecordMapper.getPagedByTimeZone(rowBounds, userId, ledgerId, startTime, endTime);
+            list = expensesRecordMapper.getPagedByUserIdAndTimeZone(rowBounds, userId, ledgerId, startTime, endTime);
         } else {
-            list = expensesRecordMapper.getPagedByTimeZoneAndType(rowBounds, userId, ledgerId, type, startTime, endTime);
+            list = expensesRecordMapper.getPagedByUserIdAndTimeZoneAndType(rowBounds, userId, ledgerId, type, startTime, endTime);
         }
         System.out.println(list.size());
         System.out.println(list);
         System.out.println("----");
         System.out.println("kind:" + kind);
         System.out.println("remark:" + remark);
-        Iterator<ExpensesRecord> iterator = list.iterator();
+        Iterator<ExpensesRecordDto> iterator = list.iterator();
         while (iterator.hasNext()) {
-            ExpensesRecord e = iterator.next();
+            ExpensesRecordDto e = iterator.next();
             System.out.println("==> " + e.getKind());
             System.out.println("==> " + e.getRemark());
             if (!(kind.equals(e.getKind()) || e.getRemark().contains(remark))) {
