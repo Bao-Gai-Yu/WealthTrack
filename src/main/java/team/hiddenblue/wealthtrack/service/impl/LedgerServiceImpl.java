@@ -7,11 +7,13 @@ import team.hiddenblue.wealthtrack.constant.ErrorCode;
 import team.hiddenblue.wealthtrack.constant.ResponseCode;
 import team.hiddenblue.wealthtrack.dto.LedgerDto;
 import team.hiddenblue.wealthtrack.dto.LedgerResult;
+import team.hiddenblue.wealthtrack.dto.LedgerUsersResult;
 import team.hiddenblue.wealthtrack.exception.AppException;
 import team.hiddenblue.wealthtrack.mapper.LedgerMapper;
 import team.hiddenblue.wealthtrack.mapper.LedgerPermissionMapper;
 import team.hiddenblue.wealthtrack.pojo.Ledger;
 import team.hiddenblue.wealthtrack.pojo.LedgerPermission;
+import team.hiddenblue.wealthtrack.pojo.UserInfo;
 import team.hiddenblue.wealthtrack.service.LedgerService;
 import team.hiddenblue.wealthtrack.util.Md5Util;
 
@@ -144,5 +146,19 @@ public class LedgerServiceImpl implements LedgerService {
         ledgerMapper.insertPermission(LedgerPermission.builder()
                 .ledgerId(ledger.getId())
                 .userId(userId).build());
+    }
+
+    /**
+     * 获取某个账本的所有用户信息
+     * @param ledgerId
+     * @return
+     */
+    @Override
+    public List<LedgerUsersResult> getAllUsersByLedgerId(int ledgerId){
+        List<LedgerUsersResult> ledgerUsersResults = ledgerPermissionMapper.getAllUsersByLedgerId(ledgerId);
+        if(ledgerUsersResults == null){
+            throw new AppException(ErrorCode.LEDGER_PERMISSION_ERROR);
+        }
+        return ledgerUsersResults;
     }
 }

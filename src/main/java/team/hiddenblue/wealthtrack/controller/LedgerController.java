@@ -6,9 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import team.hiddenblue.wealthtrack.constant.ResponseCode;
 import team.hiddenblue.wealthtrack.dto.LedgerDto;
+import team.hiddenblue.wealthtrack.dto.LedgerUsersResult;
 import team.hiddenblue.wealthtrack.dto.Result;
 import team.hiddenblue.wealthtrack.pojo.Ledger;
+import team.hiddenblue.wealthtrack.pojo.LedgerPermission;
+import team.hiddenblue.wealthtrack.pojo.UserInfo;
 import team.hiddenblue.wealthtrack.service.LedgerService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/ledger")
@@ -89,6 +94,22 @@ public class LedgerController {
     public Object share(@RequestParam String password) {
         ledgerService.share(StpUtil.getLoginIdAsInt(), password);
         return Result.SUCCESS();
+    }
+
+    /**
+     * 获取拥有某个账本的所有用户信息
+     * @param ledgerId
+     * @return
+     */
+    @GetMapping("/users")
+    public Object getallledgerusers(@RequestParam("ledger_id") int ledgerId){
+        List<LedgerUsersResult> ledgerUsersResults = ledgerService.getAllUsersByLedgerId(ledgerId);
+        if(ledgerUsersResults == null){
+            return Result.NOT_FOUND("未找到该账本所属用户信息");
+        }
+        else {
+            return Result.SUCCESS("获取成功", ledgerUsersResults);
+        }
     }
 
 }

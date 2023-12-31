@@ -15,4 +15,8 @@ public class UserInfo {
      */
     private String birthday;
 
+    /**
+     * 头像
+     */
+    private String avatar;
 }
