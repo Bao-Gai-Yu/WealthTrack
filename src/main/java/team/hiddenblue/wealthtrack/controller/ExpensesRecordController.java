@@ -10,6 +10,7 @@ import team.hiddenblue.wealthtrack.pojo.ExpensesRecord;
 import team.hiddenblue.wealthtrack.dto.Result;
 import team.hiddenblue.wealthtrack.service.ExpensesRecordService;
 import team.hiddenblue.wealthtrack.service.TextInService;
+import team.hiddenblue.wealthtrack.util.TimeUtil;
 
 import java.io.IOException;
 import java.net.URLDecoder;
@@ -33,16 +34,23 @@ public class ExpensesRecordController {
     @PostMapping
     public Object insert(@RequestBody ExpensesRecordDto expensesRecordDto) {
         System.out.println("Dto: " + expensesRecordDto);
-        if(expensesRecordDto.getRemark() == null){
+        if (expensesRecordDto.getRemark() == null) {
             expensesRecordDto.setRemark("");
         }
         //获取用户ID
         Integer userId = StpUtil.getLoginIdAsInt();
-        Integer insert = expensesRecordService.insert(userId, expensesRecordDto.getLedgerId(), expensesRecordDto.getValue(), expensesRecordDto.getType(), expensesRecordDto.getKind(), expensesRecordDto.getRemark(), expensesRecordDto.getDate());
+        Integer insert = -666;
+        try {
+            insert = expensesRecordService.insert(userId, expensesRecordDto.getLedgerId(), expensesRecordDto.getValue(), expensesRecordDto.getType(), expensesRecordDto.getKind(), expensesRecordDto.getRemark(), TimeUtil.tranStringToDate(expensesRecordDto.getDate()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         if (insert == -ResponseCode.UN_AUTH.getCode()) {
             return Result.UN_AUTH("无权操作该账本:UserId->" + userId + " LedgerId->" + expensesRecordDto.getLedgerId());
         } else if (insert == -ResponseCode.SERVER_ERROR.getCode()) {
             return Result.SERVER_ERROR("服务器开小差了");
+        } else if (insert == -666) {
+            return Result.FAIL("发生错误");
         } else {
             return Result.SUCCESS("插入成功！", insert);
         }
@@ -51,13 +59,13 @@ public class ExpensesRecordController {
     /**
      * 修改消费记录
      *
-     * @param expensesRecord 前端传来的数据
+     * @param expensesRecordDto 前端传来的数据
      * @return json数据，包含：msg - 状态信息, code - 状态码, data - null
      */
     @PutMapping
-    public Object update(@RequestBody ExpensesRecord expensesRecord) {
-        expensesRecord.setUserId(StpUtil.getLoginIdAsInt());
-        Boolean updated = expensesRecordService.update(expensesRecord);
+    public Object update(@RequestBody ExpensesRecordDto expensesRecordDto) {
+        expensesRecordDto.setUserId(StpUtil.getLoginIdAsInt());
+        Boolean updated = expensesRecordService.update(expensesRecordDto);
         if (updated) {
             return Result.SUCCESS("修改成功！");
         } else {
@@ -164,10 +172,9 @@ public class ExpensesRecordController {
      */
     @PostMapping("/train_ticket")
     public Object insertByTicket(@RequestParam("photo") MultipartFile photo) throws IOException {
-        if(photo != null && !photo.isEmpty()) {
+        if (photo != null && !photo.isEmpty()) {
             return Result.SUCCESS(textInService.insertByTicket(photo.getBytes()));
-        }
-        else{
+        } else {
             return Result.NOT_FOUND("图片为空");
         }
     }
@@ -186,10 +193,9 @@ public class ExpensesRecordController {
 
     @PostMapping("/photo")
     public Object insertByCommonImg(@RequestParam("photo") MultipartFile photo) throws IOException {
-        if(photo != null && !photo.isEmpty()) {
+        if (photo != null && !photo.isEmpty()) {
             return Result.SUCCESS(textInService.insertByCommonImg(photo.getBytes()));
-        }
-        else{
+        } else {
             return Result.NOT_FOUND("图片为空");
         }
     }
@@ -197,16 +203,16 @@ public class ExpensesRecordController {
 
     /**
      * 根据商铺小票自动识别消费记录
+     *
      * @param photo
      * @return
      * @throws IOException
      */
     @PostMapping("/receipt")
-    public Object insertByReceipt(@RequestParam("photo") MultipartFile photo) throws IOException{
-        if(photo != null && !photo.isEmpty()) {
+    public Object insertByReceipt(@RequestParam("photo") MultipartFile photo) throws IOException {
+        if (photo != null && !photo.isEmpty()) {
             return Result.SUCCESS(textInService.insertByReceipt(photo.getBytes()));
-        }
-        else{
+        } else {
             return Result.NOT_FOUND("图片为空");
         }
     }

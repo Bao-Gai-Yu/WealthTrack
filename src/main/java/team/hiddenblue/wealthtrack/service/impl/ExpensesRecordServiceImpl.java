@@ -138,15 +138,21 @@ public class ExpensesRecordServiceImpl implements ExpensesRecordService {
     }
 
     @Override
-    public Boolean update(ExpensesRecord expensesRecord) {
+    public Boolean update(ExpensesRecordDto expensesRecordDto) {
         System.out.println("Do update");
-        Integer id = expensesRecord.getId();
-        Integer userId = expensesRecord.getUserId();
-        Double value = expensesRecord.getValue();
-        Boolean type = expensesRecord.getType();
-        String kind = expensesRecord.getKind();
-        Date date = expensesRecord.getDate();
-        String remark = expensesRecord.getRemark();
+        System.out.println(expensesRecordDto);
+        Integer id = expensesRecordDto.getId();
+        Integer userId = expensesRecordDto.getUserId();
+        Double value = expensesRecordDto.getValue();
+        Boolean type = expensesRecordDto.getType();
+        String kind = expensesRecordDto.getKind();
+        Date date = new Date(70, 0, 1);
+        try {
+            date = TimeUtil.tranStringToDate(expensesRecordDto.getDate());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String remark = expensesRecordDto.getRemark();
         //检查是否有更新记录的权限
         if (hasExpensesRecordPermission(id, userId)) {
             return false;
@@ -159,7 +165,7 @@ public class ExpensesRecordServiceImpl implements ExpensesRecordService {
      * 精确查询kind与模糊查询remark的结果。
      * 全账本搜索当前用户的相关记录
      *
-     * @param kind 种类
+     * @param kind   种类
      * @param remark 备注
      * @return
      */
@@ -170,7 +176,6 @@ public class ExpensesRecordServiceImpl implements ExpensesRecordService {
         //查询结束的时间
         Date endTime = null;
         try {
-
             if (!date.equals("")) {//如果提供了具体日期
                 startTime = TimeUtil.tranStringToDate(date);
                 Calendar endCalendar = Calendar.getInstance();
