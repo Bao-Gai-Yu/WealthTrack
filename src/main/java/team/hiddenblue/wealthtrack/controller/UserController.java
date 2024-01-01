@@ -128,8 +128,28 @@ public class UserController {
     @GetMapping("/change/birthday")
     public Object modifyStudentBirthday(@RequestParam String birthday) {
         int userId = StpUtil.getLoginIdAsInt();
+        System.out.println(userId);
         userInfoService.updateInfo(userId,  birthday);
         return Result.SUCCESS();
     }
 
+    /**
+     * 获取用户头像
+     * @return
+     */
+    @GetMapping("/avatar")
+    public Object getUserAvatar() {
+        // 使用SaToken获取当前登录的用户ID
+        int userId = StpUtil.getLoginIdAsInt();
+        System.out.println(userId);
+        UserInfo userInfo = userInfoService.getById(userId);
+        String avatarUrl = userInfo.getAvatar();
+        if(avatarUrl != null){
+            return Result.SUCCESS("获取头像成功",avatarUrl);
+        }
+        else{
+            return Result.FAIL("获取头像失败");
+        }
+
+    }
 }
