@@ -42,10 +42,29 @@ public class TimeUtil {
      * @throws ParseException 日期转化异常
      * @Desc 传入日期字符串生成日期类
      */
+
     public static Date tranStringToDate(String dateStr) throws ParseException {
+        // 如果月份或日期为1位数，则在其前面添加零
+        String[] parts = dateStr.split("-");
+        if (parts.length == 3) {
+            parts[1] = addLeadingZero(parts[1]); // 处理月份
+            parts[2] = addLeadingZero(parts[2]); // 处理日期
+            dateStr = String.join("-", parts);
+        }
+        System.out.println(dateStr);
+
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         return formatter.parse(dateStr);
     }
+
+    private static String addLeadingZero(String part) {
+        // 如果长度为1，则在前面添加零
+        if (part.length() == 1) {
+            return "0" + part;
+        }
+        return part;
+    }
+
 
     public static Date now() {
         return new Date();

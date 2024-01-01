@@ -48,7 +48,7 @@ public class ExpensesRecordDto {
     /**
      * 消费日期
      */
-    private Date date;
+    private String  date;
     /**
      * 创建日期
      */
