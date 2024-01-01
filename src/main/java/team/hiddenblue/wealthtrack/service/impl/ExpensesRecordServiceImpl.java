@@ -223,9 +223,9 @@ public class ExpensesRecordServiceImpl implements ExpensesRecordService {
         List<ExpensesRecordDto> list = null;
         //按照userId进行查询
         if (type == null) {
-            list = expensesRecordMapper.getPagedByUserIdAndTimeZone(rowBounds, userId, ledgerId, startTime, endTime);
+            list = expensesRecordMapper.getPagedByLedgerIdAndTimeZone(rowBounds, userId, ledgerId, startTime, endTime);
         } else {
-            list = expensesRecordMapper.getPagedByUserIdAndTimeZoneAndType(rowBounds, userId, ledgerId, type, startTime, endTime);
+            list = expensesRecordMapper.getPagedByLedgerIdAndTimeZoneAndType(rowBounds, userId, ledgerId, type, startTime, endTime);
         }
         System.out.println(list.size());
         System.out.println(list);
