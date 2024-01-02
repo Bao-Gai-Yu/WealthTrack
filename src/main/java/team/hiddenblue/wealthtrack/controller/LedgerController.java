@@ -105,7 +105,7 @@ public class LedgerController {
         if(ledger == null){
             return Result.FAIL("账本不存在");
         }
-        return Result.SUCCESS(ledgerService.query(ledgerId));
+        return Result.SUCCESS("密钥获取成功",ledgerService.query(ledgerId));
     }
     /**
      * 共享账本，加入别人的账本

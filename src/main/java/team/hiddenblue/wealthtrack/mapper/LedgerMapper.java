@@ -61,6 +61,7 @@ public interface LedgerMapper {
 
     @Select("select password from ledger where id = #{ledgerId}")
     public String query(Integer ledgerId);
+
     @Select("select * from ledger where id=#{ledgerId}")
     Ledger findLedger(Integer ledgerId);
 
