@@ -23,4 +23,6 @@ public interface LedgerService {
     List<LedgerUsersResult> getAllUsersByLedgerId(int ledgerId);
 
     void createDefault(User user);
+
+    String query(int ledgerId );
 }

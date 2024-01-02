@@ -28,12 +28,18 @@ public interface LedgerMapper {
             @Result(property = "template", column = "template")
     })
     public LedgerResult selectByLedgerId(Integer id);
+
     @Select("SELECT user_id FROM user WHERE username = #{username}")
     public Integer getOwnerId(String username);
+
+    @Select("SELECT owner_id FROM ledger WHERE id = #{id}")
+    public Integer selectOwnerId(Integer id);
+
     @Select("SELECT owner_id FROM ledger WHERE id = #{ledgerId}")
     public Integer getLedgerOwner(Integer ledgerId);
-    @Update("UPDATE ledger SET name = #{name}, is_public = #{isPublic},owner_id = #{ownerId}, template = #{template} WHERE id = #{id}")
-    public Integer update(Integer id, String name, Boolean isPublic, Integer ownerId, String template);
+    @Update("UPDATE ledger SET name = #{name}, is_public = #{isPublic},owner_id = #{ownerId}, template = #{template},password = #{password} WHERE id = #{id}")
+    public Integer update(Integer id, String name, Boolean isPublic, Integer ownerId, String template, String password);
+
     /**
      *删除ledger中的项后同样需要在ledger_permission表中删除项
      *向ledger_permission插入新行
@@ -52,5 +58,11 @@ public interface LedgerMapper {
      */
     @Select("select * from ledger where password = #{password}")
     Ledger findByPassword(String password);
+
+    @Select("select password from ledger where id = #{ledgerId}")
+    public String query(Integer ledgerId);
+
+    @Select("select * from ledger where id=#{ledgerId}")
+    Ledger findLedger(Integer ledgerId);
 
 }
