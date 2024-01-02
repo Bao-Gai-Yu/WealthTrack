@@ -20,6 +20,7 @@ import team.hiddenblue.wealthtrack.util.Md5Util;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class LedgerServiceImpl implements LedgerService {
@@ -34,12 +35,17 @@ public class LedgerServiceImpl implements LedgerService {
      */
     @Override
     public Integer insert(LedgerDto ledger) {
+        boolean isPublic = ledger.getIsPublic();
+        String password = null;
+        if(isPublic){
+           password = Md5Util.getMD5String(String.valueOf(UUID.randomUUID()));
+        }
         int userId = StpUtil.getLoginIdAsInt();
-//        String md5Pwd = Md5Util.getMD5String(ledger.getPassword());
+
         Ledger insertLedger = Ledger.builder()
                 .id(ledger.getId())
                 .name(ledger.getName())
-                .password(null)
+                .password(password)
                 .isPublic(ledger.getIsPublic())
                 .ownerId(userId)
                 .template(ledger.getTemplate()).build();
@@ -82,11 +88,14 @@ public class LedgerServiceImpl implements LedgerService {
     @Override
     public Boolean update(LedgerDto ledger) {
         int userId = StpUtil.getLoginIdAsInt();
-//        //检查需要修改的账本是否是用户所有
-//        if(ledgerMapper.selectByLedgerId(ledger.getId()).getOwnerId()!=userId){
-//            return null;
-//        }
-//        String md5Pwd = Md5Util.getMD5String(ledger.getPassword());
+        String password = null;
+        //检查需要修改的账本是否是用户所有
+        if(ledgerMapper.selectOwnerId(ledger.getId())!=userId){
+            return null;
+        }
+        if (ledger.getIsPublic()) {
+            password = Md5Util.getMD5String(String.valueOf(UUID.randomUUID()));
+        }
         /**
          * 根据不同情况存在不同的更新方式
          * (1)账单没有进行转让，即ledger的OwnerId信息没有更改，此时处理如下
@@ -102,7 +111,8 @@ public class LedgerServiceImpl implements LedgerService {
                 ledger.getName(),
                 ledger.getIsPublic(),
                 ownerId,
-                ledger.getTemplate()
+                ledger.getTemplate(),
+                password
         );
         return updatedRow != 0;
     }
@@ -176,5 +186,19 @@ public class LedgerServiceImpl implements LedgerService {
         ledgerMapper.insertPermission(LedgerPermission.builder()
                 .ledgerId(ledger.getId())
                 .userId(user.getUserId()).build());
+    }
+
+    /**
+     * 查询账户密码
+     * @param ledgerId
+     * @return
+     */
+
+    public String query(int ledgerId){
+        String password=ledgerMapper.query(ledgerId);
+        if(password==null){
+            return null;
+        }
+        return password;
     }
 }

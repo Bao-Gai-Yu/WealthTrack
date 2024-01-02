@@ -8,6 +8,7 @@ import team.hiddenblue.wealthtrack.constant.ResponseCode;
 import team.hiddenblue.wealthtrack.dto.LedgerDto;
 import team.hiddenblue.wealthtrack.dto.LedgerUsersResult;
 import team.hiddenblue.wealthtrack.dto.Result;
+import team.hiddenblue.wealthtrack.mapper.LedgerMapper;
 import team.hiddenblue.wealthtrack.pojo.Ledger;
 import team.hiddenblue.wealthtrack.pojo.LedgerPermission;
 import team.hiddenblue.wealthtrack.pojo.UserInfo;
@@ -21,6 +22,9 @@ import java.util.List;
 public class LedgerController {
     @Autowired
     private LedgerService ledgerService;
+
+    @Autowired
+    private LedgerMapper ledgerMapper;
 
     /**
      * 新建账本
@@ -59,6 +63,11 @@ public class LedgerController {
      */
     @PutMapping
     public Object update(@RequestBody LedgerDto ledger){
+        int userId = StpUtil.getLoginIdAsInt();
+        //检查需要修改的账本是否是用户所有
+        if(ledgerMapper.selectOwnerId(ledger.getId())!=userId){
+            return Result.FAIL("非账本所有者无法修改账本信息！");
+        }
         Boolean isUpdated = ledgerService.update(ledger);
         if(isUpdated){
             return Result.SUCCESS("账本修改成功！");
@@ -84,7 +93,20 @@ public class LedgerController {
         }
     }
 
-
+    /**
+     * 查询账本密码
+     *
+     * @param ledgerId 查询的关键词
+     * @return json数据，包含状态码和状态信息
+     */
+    @GetMapping("/query")
+    public Object search(@RequestParam(value = "ledger_id") Integer ledgerId) {
+        Ledger ledger = ledgerMapper.findLedger(ledgerId);
+        if(ledger == null){
+            return Result.FAIL("账本不存在");
+        }
+        return Result.SUCCESS(ledgerService.query(ledgerId));
+    }
     /**
      * 共享账本，加入别人的账本
      * @param password 账本密钥
