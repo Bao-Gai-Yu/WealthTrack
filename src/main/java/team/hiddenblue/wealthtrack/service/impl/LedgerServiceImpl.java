@@ -13,6 +13,7 @@ import team.hiddenblue.wealthtrack.mapper.LedgerMapper;
 import team.hiddenblue.wealthtrack.mapper.LedgerPermissionMapper;
 import team.hiddenblue.wealthtrack.pojo.Ledger;
 import team.hiddenblue.wealthtrack.pojo.LedgerPermission;
+import team.hiddenblue.wealthtrack.pojo.User;
 import team.hiddenblue.wealthtrack.pojo.UserInfo;
 import team.hiddenblue.wealthtrack.service.LedgerService;
 import team.hiddenblue.wealthtrack.util.Md5Util;
@@ -26,6 +27,21 @@ public class LedgerServiceImpl implements LedgerService {
     LedgerMapper ledgerMapper;
     @Autowired
     LedgerPermissionMapper ledgerPermissionMapper;
+
+    /**
+     * 创建用户的默认记账本
+     */
+    public void createDefault(User user) {
+        Ledger ledger = Ledger.builder()
+                .name(user.getUsername() + "的记账本")
+                .isPublic(false)
+                .template("default")
+                .ownerId(user.getUserId()).build();
+        ledgerMapper.insertOne(ledger);
+        ledgerMapper.insertPermission(LedgerPermission.builder()
+                .ledgerId(ledger.getId())
+                .userId(user.getUserId()).build());
+    }
 
     /**
      * 创建账本
