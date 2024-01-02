@@ -177,4 +177,19 @@ public class LedgerServiceImpl implements LedgerService {
         }
         return ledgerUsersResults;
     }
+
+    /**
+     * 创建用户的默认记账本
+     */
+    public void createDefault(User user) {
+        Ledger ledger = Ledger.builder()
+                .name(user.getUsername() + "的记账本")
+                .isPublic(false)
+                .template("default")
+                .ownerId(user.getUserId()).build();
+        ledgerMapper.insertOne(ledger);
+        ledgerMapper.insertPermission(LedgerPermission.builder()
+                .ledgerId(ledger.getId())
+                .userId(user.getUserId()).build());
+    }
 }

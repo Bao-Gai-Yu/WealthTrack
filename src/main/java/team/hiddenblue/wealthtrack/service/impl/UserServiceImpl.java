@@ -11,6 +11,7 @@ import team.hiddenblue.wealthtrack.mapper.UserInfoMapper;
 import team.hiddenblue.wealthtrack.mapper.UserMapper;
 import team.hiddenblue.wealthtrack.pojo.User;
 import team.hiddenblue.wealthtrack.pojo.UserInfo;
+import team.hiddenblue.wealthtrack.service.LedgerService;
 import team.hiddenblue.wealthtrack.service.UserService;
 import team.hiddenblue.wealthtrack.constant.ErrorCode;
 import team.hiddenblue.wealthtrack.exception.AppException;
@@ -30,8 +31,8 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
     @Autowired
     private UserInfoMapper userInfoMapper;
-
-//    final LedgerService ledgerService;
+    @Autowired
+    private LedgerService ledgerService;
     public static final String DATE = "^(?:(?!0000)[0-9]{4}([-/.]?)(?:(?:0?[1-9]|1[0-2])\\1(?:0?[1-9]|1[0-9]|2[0-8])|(?:0?[13-9]|1[0-2])\\1(?:29|30)|(?:0?[13578]|1[02])\\1(?:31))|(?:[0-9]{2}(?:0[48]|[2468][048]|[13579][26])|(?:0[48]|[2468][048]|[13579][26])00)([-/.]?)0?2\\2(?:29))$";
     /**
      * 通过 ID 查询用户
@@ -92,7 +93,7 @@ public class UserServiceImpl implements UserService {
             UserInfo userInfo = UserInfo.builder().userId(userId)
                     .birthday(birthday).build();
             userInfoMapper.insert(userInfo);
-//            ledgerService.createDefault(user);
+            ledgerService.createDefault(user);
             return userId;
         } catch (Exception e) {
             // 处理异常

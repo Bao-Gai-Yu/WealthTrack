@@ -22,4 +22,6 @@ public interface LedgerService {
     void share(int userId, String password);
 
     List<LedgerUsersResult> getAllUsersByLedgerId(int ledgerId);
+
+    void createDefault(User user);
 }
