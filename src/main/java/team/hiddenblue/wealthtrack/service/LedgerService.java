@@ -4,6 +4,7 @@ import team.hiddenblue.wealthtrack.dto.LedgerDto;
 import team.hiddenblue.wealthtrack.dto.LedgerUsersResult;
 import team.hiddenblue.wealthtrack.pojo.Ledger;
 import team.hiddenblue.wealthtrack.pojo.LedgerPermission;
+import team.hiddenblue.wealthtrack.pojo.User;
 import team.hiddenblue.wealthtrack.pojo.UserInfo;
 
 import java.util.List;
@@ -20,4 +21,6 @@ public interface LedgerService {
     void share(int userId, String password);
 
     List<LedgerUsersResult> getAllUsersByLedgerId(int ledgerId);
+
+    void createDefault(User user);
 }
