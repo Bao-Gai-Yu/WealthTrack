@@ -11,7 +11,6 @@ import java.util.List;
 
 public interface LedgerService {
     Integer insert(LedgerDto ledger);
-    void createDefault(User user);
 
     Object selectLedgerByUserId(int userId);
 

@@ -42,6 +42,8 @@ public interface LedgerMapper {
     public Boolean delLedger(Integer ledgerId);
     @Delete("DELETE FROM ledger_permission WHERE ledger_id = #{ledgerId}")
     public Boolean delPermission(Integer ledgerId);
+    @Delete("DELETE FROM expenses_record WHERE ledger_id = #{ledgerId}")
+    public Boolean delExpenses(Integer ledgerId);
 
     /**
      * 通过账本密钥查找账本

@@ -29,21 +29,6 @@ public class LedgerServiceImpl implements LedgerService {
     LedgerPermissionMapper ledgerPermissionMapper;
 
     /**
-     * 创建用户的默认记账本
-     */
-    public void createDefault(User user) {
-        Ledger ledger = Ledger.builder()
-                .name(user.getUsername() + "的记账本")
-                .isPublic(false)
-                .template("default")
-                .ownerId(user.getUserId()).build();
-        ledgerMapper.insertOne(ledger);
-        ledgerMapper.insertPermission(LedgerPermission.builder()
-                .ledgerId(ledger.getId())
-                .userId(user.getUserId()).build());
-    }
-
-    /**
      * 创建账本
      * 此处对账本密码进行MD5加密
      */
@@ -136,7 +121,7 @@ public class LedgerServiceImpl implements LedgerService {
             System.out.println("你不是该账单拥有者，无权限删除！");
             return false;
         }
-        if (ledgerMapper.delLedger(ledgerId) && ledgerMapper.delPermission(ledgerId)) {
+        if (ledgerMapper.delLedger(ledgerId) && ledgerMapper.delPermission(ledgerId) && ledgerMapper.delExpenses(ledgerId)) {
             return true;
         }
         return false;
