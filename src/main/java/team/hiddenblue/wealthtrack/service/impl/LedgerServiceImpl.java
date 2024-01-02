@@ -121,9 +121,12 @@ public class LedgerServiceImpl implements LedgerService {
             System.out.println("你不是该账单拥有者，无权限删除！");
             return false;
         }
-        if (ledgerMapper.delLedger(ledgerId) && ledgerMapper.delPermission(ledgerId) && ledgerMapper.delExpenses(ledgerId)) {
+        if (ledgerMapper.delLedger(ledgerId) && ledgerMapper.delPermission(ledgerId)) {
+            ledgerMapper.delExpenses(ledgerId);
+            System.out.println("ID为"+ledgerId+"的账本删除成功");
             return true;
         }
+        System.out.println("删除账本出现了意外的展开");
         return false;
     }
 
