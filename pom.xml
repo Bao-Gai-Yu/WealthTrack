@@ -82,6 +82,18 @@
             <artifactId>hutool-all</artifactId>
             <version>5.5.8</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!-- Maven依赖示例 -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-inline</artifactId>
+            <version>3.4.0</version>
+            <scope>test</scope>
+        </dependency>
 
 
     </dependencies>

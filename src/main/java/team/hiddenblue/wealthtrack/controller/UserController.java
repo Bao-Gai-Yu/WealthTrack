@@ -126,7 +126,7 @@ public class UserController {
      * @return json数据，包含状态码和状态信息
      */
     @GetMapping("/change/birthday")
-    public Object modifyStudentBirthday(@RequestParam String birthday) {
+    public Object modifyBirthday(@RequestParam String birthday) {
         int userId = StpUtil.getLoginIdAsInt();
         System.out.println(userId);
         userInfoService.updateInfo(userId,  birthday);
