@@ -29,6 +29,8 @@ public interface LedgerMapper {
     })
     public LedgerResult selectByLedgerId(Integer id);
 
+    @Select("SELECT * FROM user WHERE user_id = #{uid}")
+    public Integer getUser(Integer uid);
     @Select("SELECT user_id FROM user WHERE username = #{username}")
     public Integer getOwnerId(String username);
 
