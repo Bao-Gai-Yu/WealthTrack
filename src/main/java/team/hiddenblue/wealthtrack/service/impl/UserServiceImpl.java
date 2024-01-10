@@ -83,12 +83,12 @@ public class UserServiceImpl implements UserService {
         }
 
         try {
-//            User user=new User();
-//            user.setUsername(username);
-//            user.setOpenId(openId);
             User user = User.builder().username(username).openId(openId).build();
             System.out.println(user);
-            userMapper.insert(user);
+            int i = userMapper.insert(user);
+            if (i <= 0){
+                return -1;
+            }
             int userId = user.getUserId();
             UserInfo userInfo = UserInfo.builder().userId(userId)
                     .birthday(birthday).build();

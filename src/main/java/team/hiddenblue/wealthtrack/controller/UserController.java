@@ -93,30 +93,14 @@ public class UserController {
         String openId = weChatService.code2Session(code).getOpenId();
         System.out.println(openId);
         int userId = userService.insert(username, openId, birthday);
+        if(userId == -1){
+            return Result.FAIL("注册失败");
+        }
         System.out.println(userId);
         StpUtil.login(userId);
         return Result.SUCCESS();
     }
 
-    /**
-     * 测试登录接口
-     *
-     * @param uid 参数形式传入的用户id
-     * @return json数据，包含状态码和状态信息
-     */
-    @ResponseBody
-    @GetMapping("/test/login/{uid}")
-    public Object login(@PathVariable Integer uid) {
-        User user = userService.getById(uid);
-        if (user == null) {
-            throw new AppException(ErrorCode.USER_NOT_EXISTED);
-        }
-        StpUtil.logout(uid);
-        StpUtil.login(uid);
-        UserInfo userInfo = userInfoService.getById(uid);
-        return Result.SUCCESS(Map.of("username", user.getUsername(),
-                "birthday", userInfo.getBirthday()));
-    }
 
 
     /**

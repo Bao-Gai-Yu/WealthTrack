@@ -127,7 +127,7 @@ public class LedgerController {
      * @return
      */
     @GetMapping("/users")
-    public Object getallledgerusers(@RequestParam("ledger_id") int ledgerId){
+    public Object getAllLedgerUsers(@RequestParam("ledger_id") int ledgerId){
         List<LedgerUsersResult> ledgerUsersResults = ledgerService.getAllUsersByLedgerId(ledgerId);
         if(ledgerUsersResults == null){
             return Result.NOT_FOUND("未找到该账本所属用户信息");

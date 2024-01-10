@@ -24,7 +24,7 @@ public interface UserMapper {
 
         @Insert("INSERT INTO user (username, open_id) VALUES (#{username}, #{openId})")
         @Options(useGeneratedKeys = true,keyColumn = "user_id",keyProperty = "userId")
-        void insert(User user);
+        int insert(User user);
 
 
     }
