@@ -35,6 +35,10 @@ public class TextInServiceImpl implements TextInService {
      */
     public ExpensesRecordResult insertByTicket(byte[] img) {
 
+        if (img == null || img.length == 0){
+            throw new AppException(ErrorCode.EMPTY_PHOTO);
+        }
+
         //将图片发送到TextApi接口，提取文本信息后存储在result中
         Object result = TextInFetch.post(TextInApi.TRAIN_TICKET, processImage(img));
         //用于处理JSON数据的一个类
@@ -108,6 +112,10 @@ public class TextInServiceImpl implements TextInService {
 
 
     public ExpensesRecordResult insertByCommonImg(byte []img) {
+
+        if (img == null || img.length == 0){
+            throw new AppException(ErrorCode.EMPTY_PHOTO);
+        }
         Object result = TextInFetch.post(TextInApi.COMMON_RECOGNIZE, processImage(img));
         ObjectMapper objectMapper = new ObjectMapper();
         ImageResult imageResult = objectMapper.convertValue(result, ImageResult.class);
@@ -178,6 +186,10 @@ public class TextInServiceImpl implements TextInService {
      * @return
      */
     public ExpensesRecordResult insertByReceipt(byte[] img) {
+
+        if (img == null || img.length == 0){
+            throw new AppException(ErrorCode.EMPTY_PHOTO);
+        }
 
         //将图片发送到TextApi接口，提取文本信息后存储在result中
         Object result = TextInFetch.post(TextInApi.RECEIPT, processImage(img));

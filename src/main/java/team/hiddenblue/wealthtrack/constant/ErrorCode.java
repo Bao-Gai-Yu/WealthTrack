@@ -27,6 +27,7 @@ public enum ErrorCode {
     ACCESS_TOKEN_ERROR(200303, "AccessToken异常"),
     /** 图片类型不支持 */
     IMAGE_TYPE_ERROR(200304, "图片类型不支持"),
+
     /** 上传文件大小不符 */
     IMAGE_SIZE_ERROR(200305, "上传文件大小不符，文件大小不超过 10M"),
     /** 文件类型不支持 */
@@ -44,8 +45,13 @@ public enum ErrorCode {
     /** 已经加入该账本 */
     LEDGER_HAS_JOINED_ERROR(200311, "已经加入该账本"),
 
+    /** 空图片 */
+    EMPTY_PHOTO(200312,"图片为空"),
+
     /** 非法请求 */
     ILLEGAL_REQUEST(200404, "非法请求"),
+
+
     ;
 
     private final Integer code;
