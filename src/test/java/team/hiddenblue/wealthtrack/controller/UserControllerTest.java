@@ -112,7 +112,7 @@ class UserControllerTest {
         // 白盒测试 - 条件覆盖
         // （用户头像URL不存在）
         try (MockedStatic<StpUtil> mockedStpUtil = Mockito.mockStatic(StpUtil.class)) {
-            mockedStpUtil.when(StpUtil::getLoginIdAsInt).thenReturn(68); // 假设用户ID为1
+            mockedStpUtil.when(StpUtil::getLoginIdAsInt).thenReturn(68); // 假设用户ID为68
             UserInfo mockUserInfo = mock(UserInfo.class);
             when(mockUserInfo.getAvatar()).thenReturn(null);
             when(userInfoService.getById(1)).thenReturn(mockUserInfo);
