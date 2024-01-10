@@ -37,7 +37,10 @@ public class LedgerController {
         Integer insert = ledgerService.insert(ledger);
         if (insert == -ResponseCode.SERVER_ERROR.getCode()) {
             return Result.SERVER_ERROR("服务器开小差了");
-        } else {
+        }else if(insert == -ResponseCode.FORBIDDEN.getCode()){
+            return Result.FORBIDDEN("非法的用户ID，禁止创建账本！");
+        }
+        else {
             return Result.SUCCESS("账本创建成功！", insert);
         }
     }

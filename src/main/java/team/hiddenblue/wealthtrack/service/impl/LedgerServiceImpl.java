@@ -41,7 +41,10 @@ public class LedgerServiceImpl implements LedgerService {
            password = Md5Util.getMD5String(String.valueOf(UUID.randomUUID()));
         }
         int userId = StpUtil.getLoginIdAsInt();
-
+        //如果获取的用户ID并没被注册则直接报错
+        if(ledgerMapper.getUser(userId) == null){
+            return -ResponseCode.FORBIDDEN.getCode();
+        }
         Ledger insertLedger = Ledger.builder()
                 .id(ledger.getId())
                 .name(ledger.getName())
@@ -123,12 +126,12 @@ public class LedgerServiceImpl implements LedgerService {
     @Override
     public Boolean delete(int operatorId, int ledgerId) {
         if (ledgerMapper.selectByLedgerId(ledgerId) == null) {
-            System.out.println("没有找到账单ID所属的账单信息");
+            System.out.println("没有找到账本ID所属的账单信息");
             return false;
         }
         //防止在共享账本中非账本拥有者误删账本
         if(ledgerMapper.getLedgerOwner(ledgerId)!=operatorId){
-            System.out.println("你不是该账单拥有者，无权限删除！");
+            System.out.println("你不是该账本拥有者，无权限删除！");
             return false;
         }
         if (ledgerMapper.delLedger(ledgerId) && ledgerMapper.delPermission(ledgerId)) {
