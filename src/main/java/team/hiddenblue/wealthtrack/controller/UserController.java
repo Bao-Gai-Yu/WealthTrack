@@ -113,7 +113,10 @@ public class UserController {
     public Object modifyBirthday(@RequestParam String birthday) {
         int userId = StpUtil.getLoginIdAsInt();
         System.out.println(userId);
-        userInfoService.updateInfo(userId,  birthday);
+        int i =userInfoService.updateInfo(userId,  birthday);
+        if(i == -1){
+            return Result.FAIL("修改失败");
+        }
         return Result.SUCCESS();
     }
 

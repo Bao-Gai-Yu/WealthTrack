@@ -41,10 +41,14 @@ public class UserInfoServiceImpl implements UserInfoService {
      */
     @CacheEvict(value = "NoExpire", key = "'user_info_'+#userId")
     @Transactional(rollbackFor = Exception.class)
-    public void updateInfo(int userId, String birthday) {
+    public int updateInfo(int userId, String birthday) {
         if (birthday != null && !Pattern.matches(DATE, birthday)) {
             throw new AppException(ErrorCode.PARAM_ERROR);
         }
-        userInfoMapper.updateInfo(userId, birthday);
+        int i = userInfoMapper.updateInfo(userId, birthday);
+        if(i <= 0){
+            return -1;
+        }
+        return i;
     }
 }

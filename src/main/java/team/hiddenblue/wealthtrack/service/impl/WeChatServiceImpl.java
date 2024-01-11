@@ -1,4 +1,4 @@
-package team.hiddenblue.wealthtrack.service;
+package team.hiddenblue.wealthtrack.service.impl;
 
 import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSONObject;
@@ -8,13 +8,14 @@ import team.hiddenblue.wealthtrack.config.WechatConfig;
 import team.hiddenblue.wealthtrack.constant.ErrorCode;
 import team.hiddenblue.wealthtrack.exception.AppException;
 import team.hiddenblue.wealthtrack.dto.Code2SessionDto;
+import team.hiddenblue.wealthtrack.service.WeChatService;
 
 /**
  * @author heoeh
  * @version 1.0
  */
 @Service
-public class WeChatService {
+public class WeChatServiceImpl implements WeChatService {
 
     public Code2SessionDto code2Session(String code) {
         System.out.println( WechatConfig.getAppid());

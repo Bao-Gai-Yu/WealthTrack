@@ -16,7 +16,7 @@ public interface UserInfoMapper {
             + "</set>"
             + "WHERE user_id = #{userId}"
             + "</script>")
-    void updateInfo(@Param("userId") int userId,
+    int updateInfo(@Param("userId") int userId,
                     @Param("birthday") String birthday);
 
     @Insert("INSERT INTO user_info (birthday) VALUES (#{birthday})")
